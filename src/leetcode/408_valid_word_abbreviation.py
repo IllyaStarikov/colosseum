@@ -82,3 +82,4 @@ class Solution:
 
         # Match the pattern against the word
         return re.fullmatch(pattern, word) is not None
+
