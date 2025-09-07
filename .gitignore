@@ -1,0 +1,144 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# ====================
+# AI/LLM Related Files
+# ====================
+
+# Claude
+.claude/
+CLAUDE.md
+claude.config.json
+.claude-config/
+.claude-artifacts/
+claude-session.json
+
+# OpenAI / GPT
+.openai/
+OPENAI.md
+.openai-config/
+openai.config.json
+.gpt/
+GPT.md
+CODEX.md
+.codex/
+
+# Google Gemini / Bard
+.gemini/
+GEMINI.md
+gemini.config.json
+.bard/
+BARD.md
+.google-ai/
+
+# GitHub Copilot
+.copilot/
+copilot.config.json
+.github/copilot/
+
+# Anthropic (general)
+.anthropic/
+anthropic.config.json
+
+# Cursor
+.cursor/
+cursor.config.json
+
+# Tabnine
+.tabnine/
+tabnine.config.json
+
+# Amazon CodeWhisperer
+.codewhisperer/
+codewhisperer.config.json
+
+# Replit
+.replit
+replit.nix
+.config/
+
+# Hugging Face
+.huggingface/
+hf.config.json
+
+# General AI/LLM patterns
+*-ai.md
+*-llm.md
+.ai/
+.llm/
+ai-config.json
+llm-config.json
+.ai-cache/
+.llm-cache/
+.ai-artifacts/
+.llm-artifacts/
+ai-session.json
+llm-session.json
+
+# AI generated backup/temp files
+*.ai.bak
+*.llm.bak
+*.ai.tmp
+*.llm.tmp
+.ai-backup/
+.llm-backup/
