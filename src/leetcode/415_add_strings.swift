@@ -31,3 +31,88 @@ class Solution {
         return result.isEmpty ? "0" : result
     }
 }
+
+// CLAUDE-CODE BEGIN
+// Inline test framework
+struct TestCase {
+    let name: String
+    let test: () -> Bool
+}
+
+class TestRunner {
+    private var tests: [TestCase] = []
+    private var passed = 0
+    private var failed = 0
+
+    func test(_ name: String, _ closure: @escaping () -> Bool) {
+        tests.append(TestCase(name: name, test: closure))
+    }
+
+    func assertEqual<T: Equatable>(_ actual: T, _ expected: T) -> Bool {
+        if actual != expected {
+            print("  Expected: \(expected), Got: \(actual)")
+            return false
+        }
+        return true
+    }
+
+    func run() {
+        print("\n==== Running Tests for Add Strings ====\n")
+
+        for testCase in tests {
+            print("> \(testCase.name)", terminator: "")
+
+            if testCase.test() {
+                print(" PASS")
+                passed += 1
+            } else {
+                print(" FAIL")
+                failed += 1
+            }
+        }
+
+        print("\n==== Test Results ====")
+        print("Passed: \(passed)")
+        print("Failed: \(failed)")
+        print("Total:  \(passed + failed)")
+
+        if failed > 0 {
+            exit(1)
+        }
+    }
+}
+
+// Tests
+let runner = TestRunner()
+let solution = Solution()
+
+runner.test("Add two regular numbers") {
+    return runner.assertEqual(solution.addStrings("123", "456"), "579")
+}
+
+runner.test("Add with carry") {
+    return runner.assertEqual(solution.addStrings("999", "1"), "1000")
+}
+
+runner.test("Add with multiple carries") {
+    return runner.assertEqual(solution.addStrings("999", "999"), "1998")
+}
+
+runner.test("Add zero to number") {
+    return runner.assertEqual(solution.addStrings("0", "123"), "123")
+}
+
+runner.test("Add two zeros") {
+    return runner.assertEqual(solution.addStrings("0", "0"), "0")
+}
+
+runner.test("Add numbers of different lengths") {
+    return runner.assertEqual(solution.addStrings("9", "99"), "108")
+}
+
+runner.test("Add large numbers") {
+    return runner.assertEqual(solution.addStrings("1009", "101"), "1110")
+}
+
+runner.run()
+// CLAUDE-CODE END

@@ -41,19 +41,89 @@ class Solution {
     }
 }
 
-// // TEST CASES
-// let solution = Solution()
+// CLAUDE-CODE BEGIN
+import Foundation
 
-// // Sample Input
-// assert(solution.checkInclusion("ab", "eidbaooo"))
-// assert(!solution.checkInclusion("ab", "eidboaoo"))
+// Inline test framework
+struct TestCase {
+    let name: String
+    let test: () -> Bool
+}
 
-// // Normal Cases
-// assert(solution.checkInclusion("bo", "eidbaooob"))
-// assert(solution.checkInclusion("bo", "eidbaoobo"))
-// assert(solution.checkInclusion("bo", "boeidbaoo"))
-// assert(solution.checkInclusion("bob", "bboeidbaoo"))
+class TestRunner {
+    private var tests: [TestCase] = []
+    private var passed = 0
+    private var failed = 0
 
-// // Edge Cases
-// assert(solution.checkInclusion("", "eidbaooob"))
-// assert(!solution.checkInclusion("foo", ""))
+    func test(_ name: String, _ closure: @escaping () -> Bool) {
+        tests.append(TestCase(name: name, test: closure))
+    }
+
+    func assertEqual<T: Equatable>(_ actual: T, _ expected: T) -> Bool {
+        if actual != expected {
+            print("  Expected: \(expected), Got: \(actual)")
+            return false
+        }
+        return true
+    }
+
+    func run() {
+        print("\n==== Running Tests for Permutation in String ====\n")
+
+        for testCase in tests {
+            print("> \(testCase.name)", terminator: "")
+
+            if testCase.test() {
+                print(" PASS")
+                passed += 1
+            } else {
+                print(" FAIL")
+                failed += 1
+            }
+        }
+
+        print("\n==== Test Results ====")
+        print("Passed: \(passed)")
+        print("Failed: \(failed)")
+        print("Total:  \(passed + failed)")
+
+        if failed > 0 {
+            exit(1)
+        }
+    }
+}
+
+// Tests
+let runner = TestRunner()
+let solution = Solution()
+
+runner.test("Permutation exists") {
+    return runner.assertEqual(solution.checkInclusion("ab", "eidbaooo"), true)
+}
+
+runner.test("Permutation does not exist") {
+    return runner.assertEqual(solution.checkInclusion("ab", "eidboaoo"), false)
+}
+
+runner.test("Same strings") {
+    return runner.assertEqual(solution.checkInclusion("abc", "abc"), true)
+}
+
+runner.test("s1 longer than s2") {
+    return runner.assertEqual(solution.checkInclusion("hello", "hi"), false)
+}
+
+runner.test("Empty s1") {
+    return runner.assertEqual(solution.checkInclusion("", "abc"), true)
+}
+
+runner.test("Single character match") {
+    return runner.assertEqual(solution.checkInclusion("a", "ab"), true)
+}
+
+runner.test("Repeated characters") {
+    return runner.assertEqual(solution.checkInclusion("aab", "aabaa"), true)
+}
+
+runner.run()
+// CLAUDE-CODE END

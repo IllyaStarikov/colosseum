@@ -46,21 +46,31 @@ else
     exit 1
 fi
 
-# Check if pytest is available
-if $PYTHON_CMD -m pytest --version &> /dev/null; then
-    echo "Using pytest for Python tests..."
-    echo ""
-    
-    # Run pytest on all Python test files
-    $PYTHON_CMD -m pytest *_test.py -v --tb=short
-    pytest_exit_code=$?
-    
-    # Count Python test files
-    for test_file in *_test.py; do
-        if [[ -f "$test_file" ]]; then
+# Find Python files that have unittest tests (contain "class Test" and "unittest.main")
+python_test_files=()
+for file in *.py; do
+    if [[ -f "$file" ]] && grep -q "class Test" "$file" && grep -q "unittest.main" "$file"; then
+        python_test_files+=("$file")
+    fi
+done
+
+if [[ ${#python_test_files[@]} -eq 0 ]]; then
+    echo "No Python test files found"
+else
+    # Check if pytest is available
+    if $PYTHON_CMD -m pytest --version &> /dev/null; then
+        echo "Using pytest for Python tests..."
+        echo ""
+
+        # Run pytest on Python files with tests
+        $PYTHON_CMD -m pytest "${python_test_files[@]}" -v --tb=short
+        pytest_exit_code=$?
+
+        # Count Python files
+        for test_file in "${python_test_files[@]}"; do
             python_total=$((python_total + 1))
             total_test_files=$((total_test_files + 1))
-            
+
             if [[ $pytest_exit_code -eq 0 ]]; then
                 python_passed=$((python_passed + 1))
                 passed_test_files=$((passed_test_files + 1))
@@ -70,35 +80,31 @@ if $PYTHON_CMD -m pytest --version &> /dev/null; then
                 python_failed+=("$test_file")
                 failed_test_files+=("Python: $test_file")
             fi
-        fi
-    done
-    
-    # If pytest failed, adjust the count
-    if [[ $pytest_exit_code -ne 0 ]]; then
-        python_passed=0
-        python_failed=()
-        for test_file in *_test.py; do
-            if [[ -f "$test_file" ]]; then
-                python_failed+=("$test_file")
-            fi
         done
-        passed_test_files=$((passed_test_files - python_total))
-    fi
-else
-    echo "pytest not found, using unittest..."
-    echo ""
-    
-    # Run each Python test file individually
-    for test_file in *_test.py; do
-        if [[ -f "$test_file" ]]; then
+
+        # If pytest failed, adjust the count
+        if [[ $pytest_exit_code -ne 0 ]]; then
+            python_passed=0
+            python_failed=()
+            for test_file in "${python_test_files[@]}"; do
+                python_failed+=("$test_file")
+            done
+            passed_test_files=$((passed_test_files - python_total))
+        fi
+    else
+        echo "pytest not found, using unittest..."
+        echo ""
+
+        # Run each Python test file individually
+        for test_file in "${python_test_files[@]}"; do
             echo -e "${BLUE}▶ Running: $test_file${NC}"
-            
+
             $PYTHON_CMD -m unittest "$test_file" 2>&1 | tail -n 1
             exit_code=${PIPESTATUS[0]}
-            
+
             python_total=$((python_total + 1))
             total_test_files=$((total_test_files + 1))
-            
+
             if [[ $exit_code -eq 0 ]]; then
                 python_passed=$((python_passed + 1))
                 passed_test_files=$((passed_test_files + 1))
@@ -109,8 +115,8 @@ else
                 echo -e "${RED}❌ $test_file failed${NC}"
             fi
             echo ""
-        fi
-    done
+        done
+    fi
 fi
 
 # Run Swift tests
@@ -121,21 +127,31 @@ echo "-----------------------------------"
 if ! command -v swift &> /dev/null; then
     echo -e "${YELLOW}⚠️  Swift not installed, skipping Swift tests${NC}"
 else
-    for test_file in *_test.swift; do
-        if [[ -f "$test_file" ]]; then
+    # Find Swift files that have inline tests (contain "class TestRunner" and "runner.run()")
+    swift_test_files=()
+    for file in *.swift; do
+        if [[ -f "$file" ]] && grep -q "class TestRunner" "$file" && grep -q "runner.run()" "$file"; then
+            swift_test_files+=("$file")
+        fi
+    done
+
+    if [[ ${#swift_test_files[@]} -eq 0 ]]; then
+        echo "No Swift test files found"
+    else
+        for test_file in "${swift_test_files[@]}"; do
             echo ""
             echo -e "${BLUE}▶ Running: $test_file${NC}"
-            
+
             # Run the test and capture output
             output=$(swift "$test_file" 2>&1)
             exit_code=$?
-            
+
             # Show the test output
-            echo "$output" | grep -E "^(▶|✅|❌|📊|==== Test Results ====)"
-            
+            echo "$output" | grep -E "^(>|==== Test Results ====|Passed:|Failed:|Total:)"
+
             swift_total=$((swift_total + 1))
             total_test_files=$((total_test_files + 1))
-            
+
             if [[ $exit_code -eq 0 ]]; then
                 swift_passed=$((swift_passed + 1))
                 passed_test_files=$((passed_test_files + 1))
@@ -145,8 +161,8 @@ else
                 failed_test_files+=("Swift: $test_file")
                 echo -e "${RED}❌ $test_file failed${NC}"
             fi
-        fi
-    done
+        done
+    fi
 fi
 
 # Print summary
