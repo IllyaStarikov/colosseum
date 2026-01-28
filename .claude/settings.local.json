@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./run_swift_tests.sh)",
+      "Bash(./tests.sh:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(tree:*)",
+      "Bash(python3:*)",
+      "Skill(code-review)",
+      "Bash(git check-ignore:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

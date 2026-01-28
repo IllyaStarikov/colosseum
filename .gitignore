@@ -66,8 +66,6 @@ ENV/
 # ====================
 
 # Claude
-.claude/
-CLAUDE.md
 claude.config.json
 .claude-config/
 .claude-artifacts/

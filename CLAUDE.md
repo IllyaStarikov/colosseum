@@ -1,0 +1,2 @@
+- Do not make changes to my files unless I specifically ask for it.
+- Tests should be inlined into the solution file, not in separate test files.
