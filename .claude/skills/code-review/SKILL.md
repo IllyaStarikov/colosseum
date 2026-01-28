@@ -15,9 +15,32 @@ Make SMALL edits to improve the code. For each edit:
 **Rules:**
 - Explain EACH change you make so the user learns
 - Do NOT rewrite the algorithm or make large structural changes
-- Do NOT add docstrings or complexity comments yet
+- Do NOT add docstrings yet (that's the next phase)
 
-## Phase 2: Complexity Quiz
+## Phase 2: Docstring Check
+
+Ensure the module has a proper docstring with:
+1. Problem title and number
+2. Link to the problem (e.g., https://leetcode.com/problems/...)
+3. Brief problem description
+
+**Process:**
+- Use web search to find the LeetCode problem URL based on the filename/problem number
+- If you cannot find it, ask the user for the link
+- Update or add the module docstring with the correct information
+
+Example format:
+```python
+"""
+543. Diameter of Binary Tree
+https://leetcode.com/problems/diameter-of-binary-tree/
+
+Given the root of a binary tree, return the length of the diameter of the tree.
+The diameter is the longest path between any two nodes (measured by number of edges).
+"""
+```
+
+## Phase 3: Complexity Quiz
 
 **STOP and ask the user these questions. Wait for their answer before continuing.**
 
@@ -30,7 +53,7 @@ After they answer:
 - Explain the correct answer with reasoning
 - If they had it partially right, acknowledge what they got
 
-## Phase 3: Optimality Check
+## Phase 4: Optimality Check
 
 Review and tell the user:
 1. Is this solution optimal? If not, what approach would be better?
@@ -42,7 +65,7 @@ Review and tell the user:
    - Duplicates
    - Other problem-specific cases
 
-## Phase 4: Interview Simulation
+## Phase 5: Interview Simulation
 
 Ask follow-up questions an interviewer might ask:
 1. "Can you solve this with a different time/space tradeoff?"
@@ -52,7 +75,7 @@ Ask follow-up questions an interviewer might ask:
 
 Pick 2-3 relevant follow-ups based on the problem.
 
-## Phase 5: Summary
+## Phase 6: Summary
 
 Provide a brief summary:
 - What was good about their solution
