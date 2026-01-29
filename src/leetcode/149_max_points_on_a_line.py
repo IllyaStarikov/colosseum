@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""LeetCode Problem 149: Max Points on a Line.
+"""149. Max Points on a Line
+https://leetcode.com/problems/max-points-on-a-line/
 
 Find the maximum number of points that lie on the same straight line.
 

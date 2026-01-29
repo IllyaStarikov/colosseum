@@ -1,10 +1,12 @@
-//
-//  961-n-repeated-element-in-size-2n-array.swift
-//  leetcode
-//
-//  Created by Illya Starikov on 09/16/19.
-//  Copyright 2019. Illya Starikov. All rights reserved.
-//
+/// 961. N-Repeated Element in Size 2N Array
+/// https://leetcode.com/problems/n-repeated-element-in-size-2n-array/
+///
+/// In an array nums of size 2n, there are n+1 unique elements, and exactly one
+/// of these elements is repeated n times. Return the element repeated n times.
+///
+/// Author: Illya Starikov
+/// Date: 09/16/19
+/// Copyright 2019. Illya Starikov. All rights reserved.
 
 class Solution {
     func repeatedNTimes(_ A: [Int]) -> Int {

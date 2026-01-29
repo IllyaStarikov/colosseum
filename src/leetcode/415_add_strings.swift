@@ -1,10 +1,13 @@
-//
-//  415_add_strings.swift
-//  leetcode
-//
-//  Created by Illya Starikov on 09/16/19.
-//  Copyright 2019. Illya Starikov. All rights reserved.
-//
+/// 415. Add Strings
+/// https://leetcode.com/problems/add-strings/
+///
+/// Given two non-negative integers num1 and num2 represented as strings,
+/// return their sum as a string. You must not use any built-in BigInteger
+/// library or convert the inputs to integer directly.
+///
+/// Author: Illya Starikov
+/// Date: 09/16/19
+/// Copyright 2019. Illya Starikov. All rights reserved.
 
 import Foundation
 

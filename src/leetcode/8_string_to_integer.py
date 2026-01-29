@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""LeetCode Problem 8: String to Integer (atoi).
+"""8. String to Integer (atoi)
+https://leetcode.com/problems/string-to-integer-atoi/
 
-Implements the atoi function which converts a string to an integer.
+Implement the myAtoi function which converts a string to a 32-bit signed integer.
 
 Author: Illya Starikov
 Date: 08/03/19

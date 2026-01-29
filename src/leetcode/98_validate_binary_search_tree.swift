@@ -1,3 +1,13 @@
+/// 98. Validate Binary Search Tree
+/// https://leetcode.com/problems/validate-binary-search-tree/
+///
+/// Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+/// A valid BST has the left subtree containing only nodes with keys less than the node's key,
+/// and the right subtree containing only nodes with keys greater than the node's key.
+///
+/// Author: Illya Starikov
+/// Copyright 2019. Illya Starikov. All rights reserved.
+
 import Foundation
 
 public class TreeNode {

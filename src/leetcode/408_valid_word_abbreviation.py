@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-"""
+"""408. Valid Word Abbreviation
 https://leetcode.com/problems/valid-word-abbreviation/
+
+Given a string word and an abbreviation abbr, return whether the string matches
+the given abbreviation. A string can be abbreviated by replacing non-adjacent
+substrings with their lengths.
 
 Author: Illya Starikov
 Date: 2025-08-29

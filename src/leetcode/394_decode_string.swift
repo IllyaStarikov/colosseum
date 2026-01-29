@@ -1,10 +1,13 @@
-//
-//  394-decode-string.swift
-//  leetcode
-//
-//  Created by Illya Starikov on 09/15/19.
-//  Copyright 2019. Illya Starikov. All rights reserved.
-//
+/// 394. Decode String
+/// https://leetcode.com/problems/decode-string/
+///
+/// Given an encoded string, return its decoded string.
+/// The encoding rule is: k[encoded_string], where the encoded_string inside
+/// the square brackets is being repeated exactly k times.
+///
+/// Author: Illya Starikov
+/// Date: 09/15/19
+/// Copyright 2019. Illya Starikov. All rights reserved.
 
 import Foundation
 
