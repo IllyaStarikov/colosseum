@@ -83,7 +83,6 @@ class Solution:
         return lines
 
 
-# CLAUDE-CODE BEGIN
 import unittest
 
 
@@ -137,4 +136,3 @@ class TestMaxPointsOnALine(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# CLAUDE-CODE END

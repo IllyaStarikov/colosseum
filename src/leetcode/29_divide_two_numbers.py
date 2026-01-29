@@ -61,7 +61,6 @@ class Solution:
         return INT_MAX if not (INT_MIN <= number <= INT_MAX) else number
 
 
-# CLAUDE-CODE BEGIN
 import unittest
 
 
@@ -110,4 +109,3 @@ class TestDivideTwoNumbers(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# CLAUDE-CODE END

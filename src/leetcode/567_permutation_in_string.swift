@@ -41,7 +41,6 @@ class Solution {
     }
 }
 
-// CLAUDE-CODE BEGIN
 import Foundation
 
 // Inline test framework
@@ -126,4 +125,3 @@ runner.test("Repeated characters") {
 }
 
 runner.run()
-// CLAUDE-CODE END

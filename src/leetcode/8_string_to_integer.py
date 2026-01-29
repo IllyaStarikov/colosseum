@@ -88,7 +88,6 @@ class Solution:
             return number
 
 
-# CLAUDE-CODE BEGIN
 import unittest
 
 
@@ -138,4 +137,3 @@ class TestStringToInteger(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# CLAUDE-CODE END

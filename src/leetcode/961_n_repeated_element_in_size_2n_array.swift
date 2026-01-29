@@ -22,7 +22,6 @@ class Solution {
     }
 }
 
-// CLAUDE-CODE BEGIN
 import Foundation
 
 // Inline test framework
@@ -103,4 +102,3 @@ runner.test("Large repeated number") {
 }
 
 runner.run()
-// CLAUDE-CODE END

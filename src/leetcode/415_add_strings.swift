@@ -32,7 +32,6 @@ class Solution {
     }
 }
 
-// CLAUDE-CODE BEGIN
 // Inline test framework
 struct TestCase {
     let name: String
@@ -115,4 +114,3 @@ runner.test("Add large numbers") {
 }
 
 runner.run()
-// CLAUDE-CODE END

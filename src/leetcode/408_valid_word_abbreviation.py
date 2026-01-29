@@ -84,7 +84,6 @@ class Solution:
         return re.fullmatch(pattern, word) is not None
 
 
-# CLAUDE-CODE BEGIN
 import unittest
 
 
@@ -195,4 +194,3 @@ class TestValidWordAbbreviation(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# CLAUDE-CODE END
