@@ -1,6 +1,6 @@
 [comment]: # (<script src=template/analytics.js></script>)
 
-# [colosseum](https://colosseum.starikov.io)
+# colosseum
 
 **🏟 ARE YOU NOT ENTERTAINED, code judge?**
 
