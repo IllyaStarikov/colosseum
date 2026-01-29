@@ -65,7 +65,16 @@ Review and tell the user:
    - Duplicates
    - Other problem-specific cases
 
-## Phase 5: Interview Simulation
+## Phase 5: Test Coverage
+
+If you identified missing edge cases in Phase 4:
+1. Ask the user if they'd like you to add tests for the missing cases
+2. If yes, add test cases following the existing test style in the file
+3. Run the tests to verify they pass
+
+If all edge cases are already covered, skip this phase.
+
+## Phase 6: Interview Simulation
 
 Ask follow-up questions an interviewer might ask:
 1. "Can you solve this with a different time/space tradeoff?"
@@ -75,7 +84,7 @@ Ask follow-up questions an interviewer might ask:
 
 Pick 2-3 relevant follow-ups based on the problem.
 
-## Phase 6: Summary
+## Phase 7: Summary
 
 Provide a brief summary:
 - What was good about their solution
