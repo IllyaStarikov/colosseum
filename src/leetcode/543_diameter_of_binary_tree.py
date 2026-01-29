@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Module description
+543. Diameter of Binary Tree
+https://leetcode.com/problems/diameter-of-binary-tree/
+
+Given the root of a binary tree, return the length of the diameter of the tree.
+The diameter is the longest path between any two nodes, measured by number of edges.
+This path may or may not pass through the root.
 
 Author: Illya Starikov
 Date: 2026-01-27
