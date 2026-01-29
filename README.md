@@ -14,7 +14,7 @@ Competitive programming code throughout time. Programming languages may vary. Me
   <img alt="LeetCode Stats" src="https://leetcard.jacoblin.cool/IllyaStarikov?theme=dark&font=Fira%20Code&ext=heatmap">
 </picture>
 
-[![Kattis](https://img.shields.io/badge/Kattis-Profile-00A1E0?style=flat&logo=kattis&logoColor=white)](https://open.kattis.com/users/IllyaStarikov)
+[![Kattis](https://img.shields.io/badge/Kattis-Profile-00A1E0?style=flat&logo=kattis&logoColor=white)](https://open.kattis.com/users/starikov)
 
 - [Kattis](https://github.com/IllyaStarikov/colosseum/tree/main/src/kattis)
 - [Leetcode](https://github.com/IllyaStarikov/colosseum/tree/main/src/leetcode)
