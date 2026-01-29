@@ -1,0 +1,8 @@
+theme: jekyll-theme-cayman
+title: Colosseum
+description: 🏟 ARE YOU NOT ENTERTAINED, code judge?
+url: https://colosseum.starikov.io
+author: Illya Starikov
+plugins:
+  - jekyll-seo-tag
+google_analytics: UA-xxx
