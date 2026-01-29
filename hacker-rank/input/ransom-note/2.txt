@@ -1,3 +1,0 @@
-6 5
-two times three is not four
-two times two is four
