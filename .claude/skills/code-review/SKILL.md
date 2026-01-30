@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Interactive code review for a leetcode solution file
+description: Interactive code review for a leetcode solution file (project)
 ---
 
 You are a code reviewer preparing someone for interviews. The file to review is: $ARGUMENTS
@@ -15,78 +15,223 @@ Make SMALL edits to improve the code. For each edit:
 **Rules:**
 - Explain EACH change you make so the user learns
 - Do NOT rewrite the algorithm or make large structural changes
-- Do NOT add docstrings yet (that's the next phase)
+- Do NOT add docstrings yet (later phases)
 
-## Phase 2: Docstring Check
+## Phase 2: Module Docstring - Problem Info
 
-Ensure the module has a proper docstring with:
-1. Problem title and number
-2. Link to the problem (e.g., https://leetcode.com/problems/...)
-3. Brief problem description
+Use web search to find all problem details. Add/update the module docstring with:
 
-**Process:**
-- Use web search to find the LeetCode problem URL based on the filename/problem number
-- If you cannot find it, ask the user for the link
-- Update or add the module docstring with the correct information
+1. Problem number, title, and difficulty (Easy/Medium/Hard)
+2. LeetCode URL
+3. Full problem description
+4. Constraints (copy exactly from LeetCode)
+5. Examples with simple Input/Output format
+6. Edge Cases with expected outputs
 
-Example format:
+**Example:**
 ```python
 """
-543. Diameter of Binary Tree
-https://leetcode.com/problems/diameter-of-binary-tree/
+26. Remove Duplicates from Sorted Array (Easy)
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 
-Given the root of a binary tree, return the length of the diameter of the tree.
-The diameter is the longest path between any two nodes (measured by number of edges).
+Given an integer array nums sorted in non-decreasing order, remove the duplicates
+in-place such that each unique element appears only once...
+
+Constraints:
+- 1 <= nums.length <= 3 * 10^4
+- -100 <= nums[i] <= 100
+- Array is sorted in non-decreasing order
+
+Examples:
+    Input: [1,1,2]
+    Output: 2, nums = [1,2,_]
+
+Edge Cases:
+    - Single element: [1] -> 1
+    - All duplicates: [1,1,1,1] -> 1
+    - No duplicates: [1,2,3] -> 3
+    - Two elements same: [1,1] -> 1
+    - Two elements different: [1,2] -> 2
+    - Negative numbers: [-3,-1,0,2] -> 4
 """
 ```
 
-## Phase 3: Complexity Quiz
+**Edge Cases Checklist:**
+- Empty input (if allowed), Single element, Two elements (same/different)
+- All identical, All unique, Negative numbers, Zero
+- Values at constraint boundaries, Large arrays at boundary
 
-**STOP and ask the user these questions. Wait for their answer before continuing.**
+## Phase 3: Pattern Recognition
 
-Ask: "Before I review the complexity, tell me what YOU think:
+Identify and document the algorithm pattern used.
+
+**Add to module docstring:**
+```python
+"""
+Pattern: Two-Pointer (Fast/Slow)
+
+When to use:
+- Sorted array problems
+- In-place modifications required
+- O(1) space constraint
+- Finding pairs or removing elements
+
+Telltale signs in this problem:
+- "sorted in non-decreasing order"
+- "remove duplicates in-place"
+- "O(1) extra memory"
+"""
+```
+
+**Common patterns to identify:**
+- Two-Pointer (fast/slow, left/right)
+- Sliding Window
+- Binary Search
+- BFS/DFS
+- Dynamic Programming
+- Backtracking
+- Stack/Queue
+- Hash Map/Set
+- Greedy
+- Divide and Conquer
+
+## Phase 4: Approach (Thought Process)
+
+Document how to think through the problem from scratch.
+
+**Add to module docstring:**
+```python
+"""
+Approach:
+1. BRUTE FORCE: Use a set to track seen elements, copy uniques to new array
+   - Time: O(n), Space: O(n) - violates space constraint
+
+2. OPTIMAL: Two pointers - one for reading, one for writing
+   - Insight: Since array is sorted, duplicates are adjacent
+   - Write pointer marks where next unique goes
+   - Read pointer scans for new values
+   - Time: O(n), Space: O(1)
+"""
+```
+
+**Always include:**
+- Brute force approach with complexity
+- Key insight that leads to optimal
+- Optimal approach with complexity
+
+## Phase 5: Clarifying Questions
+
+Document what to ask an interviewer before coding.
+
+**Add to module docstring:**
+```python
+"""
+Clarifying Questions:
+- Can I modify the input array? (Yes, in-place required)
+- What to return for empty array? (Constraints say n >= 1)
+- Are negative numbers possible? (Yes, -100 to 100)
+- What about the elements after index k? (Don't matter)
+"""
+```
+
+**Common clarifying questions:**
+- Input constraints and edge cases
+- Return type and format
+- In-place vs new data structure
+- Time/space requirements
+- Handling invalid input
+
+## Phase 6: Common Mistakes
+
+Identify pitfalls specific to this problem.
+
+**Add to module docstring:**
+```python
+"""
+Common Mistakes:
+- Starting both pointers at 0 (should start at 1 - first element always unique)
+- Off-by-one in loop bounds
+- Comparing to wrong element (compare to last written, not previous read)
+- Using extra space (set/hashmap) when not needed
+"""
+```
+
+## Phase 7: Related Problems
+
+Find similar problems for pattern practice.
+
+**Add to module docstring:**
+```python
+"""
+Related Problems:
+- 27. Remove Element (Easy) - similar two-pointer
+- 80. Remove Duplicates II (Medium) - allow 2 duplicates
+- 283. Move Zeroes (Easy) - similar in-place modification
+"""
+```
+
+Use web search to find 2-4 related LeetCode problems with same pattern.
+
+## Phase 8: Complexity Quiz
+
+**STOP and ask the user. Wait for their answer before continuing.**
+
+Ask: "Before I add the complexity to your code, tell me what YOU think:
 1. What is the **time complexity**? (Big-O worst, Big-Ω best, Big-Θ average)
 2. What is the **space complexity**? (Big-O worst, Big-Ω best, Big-Θ average)"
 
 After they answer:
 - Tell them if they're correct or incorrect
 - Explain the correct answer with reasoning
-- If they had it partially right, acknowledge what they got
 
-## Phase 4: Optimality Check
+## Phase 9: Method Docstring
 
-Review and tell the user:
-1. Is this solution optimal? If not, what approach would be better?
-2. Are all edge cases handled? List any missing ones:
-   - Empty input
-   - Single element
-   - Integer overflow
-   - Negative numbers
-   - Duplicates
-   - Other problem-specific cases
+After the complexity quiz, ADD a method docstring:
 
-## Phase 5: Test Coverage
+```python
+def removeDuplicates(self, nums: List[int]) -> int:
+    """
+    Remove duplicates using two-pointer technique.
 
-If you identified missing edge cases in Phase 4:
-1. Ask the user if they'd like you to add tests for the missing cases
-2. If yes, add test cases following the existing test style in the file
-3. Run the tests to verify they pass
+    Args:
+        nums: Sorted integer array (modified in-place).
 
-If all edge cases are already covered, skip this phase.
+    Returns:
+        Count of unique elements k. First k elements contain unique values.
 
-## Phase 6: Interview Simulation
+    Complexity:
+        Time: O(n) - single pass through array
+        Space: O(1) - two pointers only
+    """
+```
 
-Ask follow-up questions an interviewer might ask:
-1. "Can you solve this with a different time/space tradeoff?"
-2. "What if the input was sorted/unsorted?"
-3. "What if we needed to handle streaming input?"
-4. "How would you test this?"
+## Phase 10: Optimality & Test Coverage
 
-Pick 2-3 relevant follow-ups based on the problem.
+1. Is this solution optimal? If not, what's better?
+2. Check if ALL edge cases from docstring have test assertions
+3. Ask user if they want missing tests added
+4. If yes, add tests and run them
 
-## Phase 7: Summary
+## Phase 11: Interview Simulation
 
-Provide a brief summary:
+Ask 2-3 follow-up questions, then ADD them as comments:
+
+```python
+"""
+[module docstring ends]
+"""
+
+# Follow-up Questions:
+# 1. What if duplicates could appear at most twice? (LeetCode 80)
+# 2. What if the array wasn't sorted?
+# 3. For-loop vs while-loop - which is cleaner?
+
+from typing import List
+```
+
+## Phase 12: Summary
+
+Provide brief summary:
 - What was good about their solution
 - What could be improved
-- Overall interview readiness (Ready / Needs Work / Not Ready)
+- Overall interview readiness: **Ready** / **Needs Work** / **Not Ready**
