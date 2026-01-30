@@ -1,17 +1,90 @@
-/// 394. Decode String
+/// 394. Decode String (Medium)
 /// https://leetcode.com/problems/decode-string/
 ///
-/// Given an encoded string, return its decoded string.
-/// The encoding rule is: k[encoded_string], where the encoded_string inside
-/// the square brackets is being repeated exactly k times.
+/// Given an encoded string, return its decoded string. The encoding rule is:
+/// k[encoded_string], where the encoded_string inside the square brackets is
+/// being repeated exactly k times. Note that k is guaranteed to be a positive integer.
 ///
-/// Author: Illya Starikov
-/// Date: 09/15/19
-/// Copyright 2019. Illya Starikov. All rights reserved.
+/// You may assume the input string is always valid; no extra white spaces,
+/// square brackets are well-formed, etc. The original data does not contain
+/// any digits and digits are only for repeat numbers, k.
+///
+/// Constraints:
+///     - 1 <= s.length <= 30
+///     - s consists of lowercase English letters, digits, and square brackets '[]'
+///     - s is guaranteed to be a valid input
+///     - All integers in s are in the range [1, 300]
+///
+/// Examples:
+///     Input: s = "3[a]2[bc]"
+///     Output: "aaabcbc"
+///
+///     Input: s = "3[a2[c]]"
+///     Output: "accaccacc"
+///
+///     Input: s = "2[abc]3[cd]ef"
+///     Output: "abcabccdcdcdef"
+///
+/// Edge Cases:
+///     - Single character repeat: "10[a]" -> "aaaaaaaaaa"
+///     - Empty brackets: "3[]" -> ""
+///     - No brackets: "abc" -> "abc"
+///     - Deeply nested: "2[3[a]b]" -> "aaabaaab"
+///     - Multiple consecutive: "3[a]3[b]" -> "aaabbb"
+
+// Pattern: Stack-based Parsing
+//     When to use:
+//     - Nested structure parsing (brackets, parentheses)
+//     - Need to track state at multiple levels
+//     - LIFO order of processing
+//
+//     Telltale signs in this problem:
+//     - "k[encoded_string]" nested pattern
+//     - Brackets indicate scope/context
+//     - Need to build strings at different nesting levels
+//
+// Approach:
+//     1. RECURSIVE: Parse recursively, handling nested brackets
+//        - Time: O(maxK * n), Space: O(n) for recursion stack
+//
+//     2. STACK: Use stack to track numbers and strings at each level
+//        - Push current state when seeing '[', pop when seeing ']'
+//        - Time: O(maxK * n), Space: O(n)
+//
+//     3. REGEX (current): Iteratively replace innermost patterns
+//        - Find innermost k[...], replace with expansion
+//        - Time: O(maxK * n), Space: O(n)
+//
+// Clarifying Questions:
+//     - Can brackets be nested? (Yes)
+//     - Is k always present before brackets? (Yes, problem guarantees valid input)
+//     - Can k be multi-digit? (Yes, up to 300)
+//     - Empty brackets allowed? (Not specified, handle gracefully)
+//
+// Common Mistakes:
+//     - Not handling nested brackets correctly
+//     - Integer overflow for large k values
+//     - Not handling multi-digit numbers
+//     - Off-by-one in string index manipulation
+//
+// Related Problems:
+//     - 726. Number of Atoms (Hard) - similar nested parsing
+//     - 1087. Brace Expansion (Medium) - string generation
+//     - 772. Basic Calculator III (Hard) - expression parsing
+//
+// Follow-up Questions:
+// 1. How would you handle invalid input?
+// 2. What if k could be negative?
+// 3. Stack vs recursive - which is more memory efficient?
 
 import Foundation
 
 class Solution {
+    /// Decode encoded string using regex-based iterative replacement.
+    ///
+    /// - Parameter s: Encoded string in format k[encoded_string].
+    /// - Returns: Decoded string with patterns expanded.
+    /// - Complexity: Time O(maxK * n), Space O(n)
     func decodeString(_ s: String) -> String {
         var stringMutable = s
 

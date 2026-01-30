@@ -5,6 +5,12 @@ description: Interactive code review for a leetcode solution file (project)
 
 You are a code reviewer preparing someone for interviews. The file to review is: $ARGUMENTS
 
+## Documentation Philosophy
+
+Documentation is split into **WHAT** and **HOW**:
+- **Module Docstring = WHAT**: Problem specification (the "assignment")
+- **Block Comments = HOW**: Interview prep notes (your study material)
+
 ## Phase 1: Code Quality Edits
 
 Make SMALL edits to improve the code. For each edit:
@@ -17,7 +23,7 @@ Make SMALL edits to improve the code. For each edit:
 - Do NOT rewrite the algorithm or make large structural changes
 - Do NOT add docstrings yet (later phases)
 
-## Phase 2: Module Docstring - Problem Info
+## Phase 2: Module Docstring (WHAT - Problem Spec)
 
 Use web search to find all problem details. Add/update the module docstring with:
 
@@ -38,9 +44,9 @@ Given an integer array nums sorted in non-decreasing order, remove the duplicate
 in-place such that each unique element appears only once...
 
 Constraints:
-- 1 <= nums.length <= 3 * 10^4
-- -100 <= nums[i] <= 100
-- Array is sorted in non-decreasing order
+    - 1 <= nums.length <= 3 * 10^4
+    - -100 <= nums[i] <= 100
+    - Array is sorted in non-decreasing order
 
 Examples:
     Input: [1,1,2]
@@ -50,9 +56,6 @@ Edge Cases:
     - Single element: [1] -> 1
     - All duplicates: [1,1,1,1] -> 1
     - No duplicates: [1,2,3] -> 3
-    - Two elements same: [1,1] -> 1
-    - Two elements different: [1,2] -> 2
-    - Negative numbers: [-3,-1,0,2] -> 4
 """
 ```
 
@@ -61,26 +64,23 @@ Edge Cases:
 - All identical, All unique, Negative numbers, Zero
 - Values at constraint boundaries, Large arrays at boundary
 
-## Phase 3: Pattern Recognition
+## Phase 3-7: Block Comments (HOW - Interview Prep)
 
-Identify and document the algorithm pattern used.
+Add interview prep notes as BLOCK COMMENTS after the docstring (before imports).
 
-**Add to module docstring:**
+### Phase 3: Pattern Recognition
+
 ```python
-"""
-Pattern: Two-Pointer (Fast/Slow)
-
-When to use:
-- Sorted array problems
-- In-place modifications required
-- O(1) space constraint
-- Finding pairs or removing elements
-
-Telltale signs in this problem:
-- "sorted in non-decreasing order"
-- "remove duplicates in-place"
-- "O(1) extra memory"
-"""
+# Pattern: Two-Pointer (Fast/Slow)
+#     When to use:
+#     - Sorted array problems
+#     - In-place modifications required
+#     - O(1) space constraint
+#
+#     Telltale signs in this problem:
+#     - "sorted in non-decreasing order"
+#     - "remove duplicates in-place"
+#     - "O(1) extra memory"
 ```
 
 **Common patterns to identify:**
@@ -95,23 +95,18 @@ Telltale signs in this problem:
 - Greedy
 - Divide and Conquer
 
-## Phase 4: Approach (Thought Process)
+### Phase 4: Approach (Thought Process)
 
-Document how to think through the problem from scratch.
-
-**Add to module docstring:**
 ```python
-"""
-Approach:
-1. BRUTE FORCE: Use a set to track seen elements, copy uniques to new array
-   - Time: O(n), Space: O(n) - violates space constraint
-
-2. OPTIMAL: Two pointers - one for reading, one for writing
-   - Insight: Since array is sorted, duplicates are adjacent
-   - Write pointer marks where next unique goes
-   - Read pointer scans for new values
-   - Time: O(n), Space: O(1)
-"""
+# Approach:
+#     1. BRUTE FORCE: Use a set to track seen elements, copy uniques to new array
+#        - Time: O(n), Space: O(n) - violates space constraint
+#
+#     2. OPTIMAL: Two pointers - one for reading, one for writing
+#        - Insight: Since array is sorted, duplicates are adjacent
+#        - Write pointer marks where next unique goes
+#        - Read pointer scans for new values
+#        - Time: O(n), Space: O(1)
 ```
 
 **Always include:**
@@ -119,55 +114,33 @@ Approach:
 - Key insight that leads to optimal
 - Optimal approach with complexity
 
-## Phase 5: Clarifying Questions
+### Phase 5: Clarifying Questions
 
-Document what to ask an interviewer before coding.
-
-**Add to module docstring:**
 ```python
-"""
-Clarifying Questions:
-- Can I modify the input array? (Yes, in-place required)
-- What to return for empty array? (Constraints say n >= 1)
-- Are negative numbers possible? (Yes, -100 to 100)
-- What about the elements after index k? (Don't matter)
-"""
+# Clarifying Questions:
+#     - Can I modify the input array? (Yes, in-place required)
+#     - What to return for empty array? (Constraints say n >= 1)
+#     - Are negative numbers possible? (Yes, -100 to 100)
+#     - What about the elements after index k? (Don't matter)
 ```
 
-**Common clarifying questions:**
-- Input constraints and edge cases
-- Return type and format
-- In-place vs new data structure
-- Time/space requirements
-- Handling invalid input
+### Phase 6: Common Mistakes
 
-## Phase 6: Common Mistakes
-
-Identify pitfalls specific to this problem.
-
-**Add to module docstring:**
 ```python
-"""
-Common Mistakes:
-- Starting both pointers at 0 (should start at 1 - first element always unique)
-- Off-by-one in loop bounds
-- Comparing to wrong element (compare to last written, not previous read)
-- Using extra space (set/hashmap) when not needed
-"""
+# Common Mistakes:
+#     - Starting both pointers at 0 (should start at 1 - first element always unique)
+#     - Off-by-one in loop bounds
+#     - Comparing to wrong element (compare to last written, not previous read)
+#     - Using extra space (set/hashmap) when not needed
 ```
 
-## Phase 7: Related Problems
+### Phase 7: Related Problems
 
-Find similar problems for pattern practice.
-
-**Add to module docstring:**
 ```python
-"""
-Related Problems:
-- 27. Remove Element (Easy) - similar two-pointer
-- 80. Remove Duplicates II (Medium) - allow 2 duplicates
-- 283. Move Zeroes (Easy) - similar in-place modification
-"""
+# Related Problems:
+#     - 27. Remove Element (Easy) - similar two-pointer
+#     - 80. Remove Duplicates II (Medium) - allow 2 duplicates
+#     - 283. Move Zeroes (Easy) - similar in-place modification
 ```
 
 Use web search to find 2-4 related LeetCode problems with same pattern.
@@ -214,17 +187,13 @@ def removeDuplicates(self, nums: List[int]) -> int:
 
 ## Phase 11: Interview Simulation
 
-Ask 2-3 follow-up questions, then ADD them as comments:
+Ask 2-3 follow-up questions, then ADD them to the block comments:
 
 ```python
-"""
-[module docstring ends]
-"""
-
 # Follow-up Questions:
-# 1. What if duplicates could appear at most twice? (LeetCode 80)
-# 2. What if the array wasn't sorted?
-# 3. For-loop vs while-loop - which is cleaner?
+#     1. What if duplicates could appear at most twice? (LeetCode 80)
+#     2. What if the array wasn't sorted?
+#     3. For-loop vs while-loop - which is cleaner?
 
 from typing import List
 ```

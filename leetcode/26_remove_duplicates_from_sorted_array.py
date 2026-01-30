@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-26. Remove Duplicates from Sorted Array
+26. Remove Duplicates from Sorted Array (Easy)
 https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 
 Given an integer array nums sorted in non-decreasing order, remove the duplicates
@@ -9,19 +9,89 @@ unique elements), and modify the array so the first k elements contain unique
 values in sorted order.
 
 Constraints:
-- 1 <= nums.length <= 3 * 10^4
-- -100 <= nums[i] <= 100
-- Array is sorted in non-decreasing order
+    - 1 <= nums.length <= 3 * 10^4
+    - -100 <= nums[i] <= 100
+    - Array is sorted in non-decreasing order
 
-Author: Illya Starikov
-Date: 2026-01-28
-License: MIT
+Examples:
+    Input: [1,1,2]
+    Output: 2, nums = [1,2,_]
+
+    Input: [0,0,1,1,1,2,2,3,3,4]
+    Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+Edge Cases:
+    - Single element: [1] -> 1
+    - No duplicates: [1,2,3] -> 3
+    - All duplicates: [1,1,1,1] -> 1
+    - Two elements same: [1,1] -> 1
+    - Two elements different: [1,2] -> 2
+    - Negative numbers: [-3,-1,0,2] -> 4
+    - Values at constraint boundaries: [-100, 100]
 """
+
+# Pattern: Two-Pointer (Fast/Slow)
+#     When to use:
+#     - Sorted array problems
+#     - In-place modifications required
+#     - O(1) space constraint
+#     - Finding pairs or removing elements
+#
+#     Telltale signs in this problem:
+#     - "sorted in non-decreasing order"
+#     - "remove duplicates in-place"
+#     - "O(1) extra memory"
+#
+# Approach:
+#     1. BRUTE FORCE: Use a set to track seen elements, copy uniques to new array
+#        - Time: O(n), Space: O(n) - violates space constraint
+#
+#     2. OPTIMAL: Two pointers - one for reading, one for writing
+#        - Insight: Since array is sorted, duplicates are adjacent
+#        - Write pointer marks where next unique goes
+#        - Read pointer scans for new values
+#        - Time: O(n), Space: O(1)
+#
+# Clarifying Questions:
+#     - Can I modify the input array? (Yes, in-place required)
+#     - What to return for empty array? (Constraints say n >= 1)
+#     - Are negative numbers possible? (Yes, -100 to 100)
+#     - What about the elements after index k? (Don't matter)
+#
+# Common Mistakes:
+#     - Starting both pointers at 0 (should start at 1 - first element always unique)
+#     - Off-by-one in loop bounds
+#     - Comparing to wrong element (compare to last written, not previous read)
+#     - Using extra space (set/hashmap) when not needed
+#
+# Related Problems:
+#     - 27. Remove Element (Easy) - similar two-pointer
+#     - 80. Remove Duplicates II (Medium) - allow 2 duplicates
+#     - 283. Move Zeroes (Easy) - similar in-place modification
+#
+# Follow-up Questions:
+# 1. What if duplicates could appear at most twice? (LeetCode 80)
+# 2. What if the array wasn't sorted?
+# 3. For-loop vs while-loop - which is cleaner?
 
 from typing import List
 
+
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
+        """
+        Remove duplicates from sorted array in-place using two-pointer technique.
+
+        Args:
+            nums: Sorted integer array (modified in-place).
+
+        Returns:
+            Number of unique elements k. First k elements contain unique values.
+
+        Complexity:
+            Time: O(n) - single pass through array
+            Space: O(1) - only two pointers used
+        """
         write_i = 1
         for read_i in range(1, len(nums)):
             if nums[read_i] != nums[write_i - 1]:
@@ -73,5 +143,10 @@ if __name__ == "__main__":
     nums = [1, 2]
     k = s.removeDuplicates(nums)
     assert k == 2 and nums[:k] == [1, 2], f"Two different failed: k={k}, nums[:k]={nums[:k]}"
+
+    # Constraint boundaries
+    nums = [-100, -100, 0, 100, 100]
+    k = s.removeDuplicates(nums)
+    assert k == 3 and nums[:k] == [-100, 0, 100], f"Boundaries failed: k={k}, nums[:k]={nums[:k]}"
 
     print("All tests passed!")

@@ -1,13 +1,80 @@
 #!/usr/bin/env python3
-"""149. Max Points on a Line
+"""
+149. Max Points on a Line (Hard)
 https://leetcode.com/problems/max-points-on-a-line/
 
-Find the maximum number of points that lie on the same straight line.
+Given an array of points where points[i] = [xi, yi] represents a point on the
+X-Y plane, return the maximum number of points that lie on the same straight line.
 
-Author: Illya Starikov
-Date: 08/12/19
-License: MIT
+Constraints:
+    - 1 <= points.length <= 300
+    - points[i].length == 2
+    - -10^4 <= xi, yi <= 10^4
+    - All points are unique
+
+Examples:
+    Input: points = [[1,1],[2,2],[3,3]]
+    Output: 3
+    Explanation: All three points are collinear.
+
+    Input: points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+    Output: 4
+
+Edge Cases:
+    - Single point: [[1,1]] -> 1
+    - Two points: [[1,1],[2,2]] -> 2
+    - Empty list: [] -> 0
+    - Vertical line: [[1,1],[1,2],[1,3]] -> 3
+    - Horizontal line: [[1,1],[2,1],[3,1]] -> 3
+    - Duplicate points: [[1,1],[1,1],[2,2]] -> 3
+    - All points collinear: [[1,1],[2,2],[3,3],[4,4]] -> 4
+    - No three collinear: [[0,0],[1,1],[0,1]] -> 2
 """
+
+# Pattern: Hash Map with Slope Normalization
+#     When to use:
+#     - Geometry problems involving lines
+#     - Counting collinear points
+#     - Need to group by slope/direction
+#
+#     Telltale signs in this problem:
+#     - "points on the same straight line"
+#     - "maximum number of points"
+#     - Working with coordinates
+#
+# Approach:
+#     1. BRUTE FORCE: Check every triplet of points for collinearity
+#        - Time: O(n^3), Space: O(1)
+#
+#     2. OPTIMAL: For each anchor point, count slopes to all other points
+#        - Insight: Points on same line through anchor have same slope
+#        - Use GCD to normalize slope as fraction (avoid floating-point issues)
+#        - Handle vertical lines (dx=0) and duplicates separately
+#        - Time: O(n^2), Space: O(n)
+#
+# Clarifying Questions:
+#     - Are all points unique? (Constraints say yes, but some variants allow duplicates)
+#     - Can points be negative? (Yes, -10^4 to 10^4)
+#     - What about floating-point precision? (Use GCD normalization instead)
+#     - Single point result? (Return 1)
+#     - Empty input? (Return 0)
+#
+# Common Mistakes:
+#     - Using floating-point for slope (precision issues)
+#     - Not handling vertical lines (slope undefined)
+#     - Not handling duplicate points
+#     - Not normalizing slope sign (e.g., -1/2 vs 1/-2)
+#     - Forgetting to count the anchor point itself
+#
+# Related Problems:
+#     - 356. Line Reflection (Medium) - geometry with slopes
+#     - 447. Number of Boomerangs (Medium) - distance-based geometry
+#     - 939. Minimum Area Rectangle (Medium) - coordinate geometry
+#
+# Follow-up Questions:
+# 1. How would you handle floating-point precision without GCD?
+# 2. What if we needed to return the actual points on the line?
+# 3. How would you parallelize this algorithm?
 
 from collections import defaultdict
 from math import gcd
@@ -15,10 +82,9 @@ from typing import List
 
 
 class Solution:
-    """Solution for the Max Points on a Line problem."""
-
     def maxPoints(self, points: List[List[int]]) -> int:
-        """Find maximum number of points on the same line.
+        """
+        Find maximum number of points on the same line.
 
         Uses anchor point approach: for each point, count slopes to all other
         points using GCD-reduced fractions to avoid floating-point issues.
@@ -29,9 +95,9 @@ class Solution:
         Returns:
             Maximum number of points that lie on the same line.
 
-        Time Complexity: O(n^2) where n is the number of points
-            - For each point, compute slopes to all other points
-        Space Complexity: O(n) for the slope counter at each anchor
+        Complexity:
+            Time: O(n^2) - for each point, compute slopes to all others
+            Space: O(n) - slope counter at each anchor
         """
         n = len(points)
         if n <= 2:
@@ -119,56 +185,37 @@ class Solution:
 #         return lines
 
 
-import unittest
+if __name__ == "__main__":
+    s = Solution()
 
+    # Example 1: Three collinear points
+    assert s.maxPoints([[1, 1], [2, 2], [3, 3]]) == 3, "Collinear points failed"
 
-class TestMaxPointsOnALine(unittest.TestCase):
-    """Test cases for Max Points on a Line solution."""
+    # Example 2: Not all on same line
+    assert s.maxPoints([[1, 1], [3, 2], [5, 3], [4, 1], [2, 3], [1, 4]]) == 4, "Mixed points failed"
 
-    def setUp(self):
-        """Set up test fixtures."""
-        self.solution = Solution()
+    # Edge case: Single point
+    assert s.maxPoints([[1, 1]]) == 1, "Single point failed"
 
-    def test_three_points_on_line(self):
-        """Test three collinear points."""
-        points = [[1, 1], [2, 2], [3, 3]]
-        self.assertEqual(self.solution.maxPoints(points), 3)
+    # Edge case: Two points
+    assert s.maxPoints([[1, 1], [2, 2]]) == 2, "Two points failed"
 
-    def test_not_all_on_same_line(self):
-        """Test points not all on the same line."""
-        points = [[1, 1], [3, 2], [5, 3], [4, 1], [2, 3], [1, 4]]
-        self.assertEqual(self.solution.maxPoints(points), 4)
+    # Edge case: Vertical line
+    assert s.maxPoints([[1, 1], [1, 2], [1, 3]]) == 3, "Vertical line failed"
 
-    def test_single_point(self):
-        """Test single point."""
-        points = [[1, 1]]
-        self.assertEqual(self.solution.maxPoints(points), 1)
+    # Edge case: Horizontal line
+    assert s.maxPoints([[1, 1], [2, 1], [3, 1]]) == 3, "Horizontal line failed"
 
-    def test_two_points(self):
-        """Test two points."""
-        points = [[1, 1], [2, 2]]
-        self.assertEqual(self.solution.maxPoints(points), 2)
+    # Edge case: Empty list
+    assert s.maxPoints([]) == 0, "Empty list failed"
 
-    def test_vertical_line(self):
-        """Test points on a vertical line."""
-        points = [[1, 1], [1, 2], [1, 3]]
-        self.assertEqual(self.solution.maxPoints(points), 3)
+    # Edge case: Duplicate points
+    assert s.maxPoints([[1, 1], [1, 1], [2, 2]]) == 3, "Duplicate points failed"
 
-    def test_horizontal_line(self):
-        """Test points on a horizontal line."""
-        points = [[1, 1], [2, 1], [3, 1]]
-        self.assertEqual(self.solution.maxPoints(points), 3)
+    # Edge case: No three collinear
+    assert s.maxPoints([[0, 0], [1, 1], [0, 1]]) == 2, "No three collinear failed"
 
-    def test_empty_list(self):
-        """Test empty list of points."""
-        points = []
-        self.assertEqual(self.solution.maxPoints(points), 0)
+    # Negative coordinates
+    assert s.maxPoints([[-1, -1], [0, 0], [1, 1]]) == 3, "Negative coordinates failed"
 
-    def test_duplicate_points(self):
-        """Test duplicate points."""
-        points = [[1, 1], [1, 1], [2, 2]]
-        self.assertEqual(self.solution.maxPoints(points), 3)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    print("All tests passed!")
