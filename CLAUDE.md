@@ -1,3 +1,4 @@
 - Do not make changes to my files unless I specifically ask for it.
 - Tests should be inlined into the solution file, not in separate test files.
+- Use simple asserts in main, not unittest suites.
 - Do not remove commented-out code in solution files. These are prior solutions kept to show progression.
