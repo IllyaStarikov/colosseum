@@ -90,6 +90,8 @@ Edge Cases:
 # 2. What's the time complexity difference between naive and optimal?
 # 3. How does Python's // differ from truncation toward zero?
 
+import unittest
+
 INT_MIN = -(2 ** 31)
 INT_MAX = 2**31 - 1
 
@@ -145,43 +147,58 @@ class Solution:
         return INT_MAX if not (INT_MIN <= number <= INT_MAX) else number
 
 
-if __name__ == "__main__":
-    s = Solution()
+class TestSolution(unittest.TestCase):
+    """Tests for Divide Two Integers solution."""
 
-    # Example 1: Basic division
-    assert s.divide(10, 3) == 3, "Basic division failed"
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
 
-    # Example 2: Negative division
-    assert s.divide(7, -3) == -2, "Negative division failed"
+    def test_example_basic_division(self):
+        """Example 1: 10 / 3 = 3."""
+        self.assertEqual(self.solution.divide(10, 3), 3)
 
-    # Both negative
-    assert s.divide(-7, -3) == 2, "Both negative failed"
+    def test_example_negative_division(self):
+        """Example 2: 7 / -3 = -2."""
+        self.assertEqual(self.solution.divide(7, -3), -2)
 
-    # Zero dividend
-    assert s.divide(0, 1) == 0, "Zero dividend failed"
+    def test_edge_both_negative(self):
+        """Both operands negative."""
+        self.assertEqual(self.solution.divide(-7, -3), 2)
 
-    # Divide by one
-    assert s.divide(5, 1) == 5, "Divide by one failed"
+    def test_edge_zero_dividend(self):
+        """Zero divided by any non-zero is 0."""
+        self.assertEqual(self.solution.divide(0, 1), 0)
 
-    # Divide by negative one
-    assert s.divide(5, -1) == -5, "Divide by -1 failed"
+    def test_edge_divide_by_one(self):
+        """Division by 1 returns dividend."""
+        self.assertEqual(self.solution.divide(5, 1), 5)
+
+    def test_edge_divide_by_negative_one(self):
+        """Division by -1 negates dividend."""
+        self.assertEqual(self.solution.divide(5, -1), -5)
 
     # Overflow case: INT_MIN / -1 (skipped - naive O(n) implementation is too slow)
-    # assert s.divide(-2147483648, -1) == 2147483647, "Overflow case failed"
+    # def test_edge_overflow(self):
+    #     """INT_MIN / -1 would overflow, return INT_MAX."""
+    #     self.assertEqual(self.solution.divide(-2147483648, -1), 2147483647)
 
-    # Large numbers (skipped - naive O(n) implementation is too slow)
-    # assert s.divide(100000, 1) == 100000, "Large numbers failed"
+    def test_edge_negative_dividend(self):
+        """Negative dividend with positive divisor."""
+        self.assertEqual(self.solution.divide(-10, 3), -3)
 
-    # Negative dividend
-    assert s.divide(-10, 3) == -3, "Negative dividend failed"
+    def test_edge_exact_division(self):
+        """Exact division with no remainder."""
+        self.assertEqual(self.solution.divide(12, 4), 3)
 
-    # Exact division
-    assert s.divide(12, 4) == 3, "Exact division failed"
+    def test_edge_equal_values(self):
+        """Dividend equals divisor."""
+        self.assertEqual(self.solution.divide(5, 5), 1)
 
-    # Dividend equals divisor
-    assert s.divide(5, 5) == 1, "Equal values failed"
+    def test_edge_dividend_smaller(self):
+        """Dividend less than divisor returns 0."""
+        self.assertEqual(self.solution.divide(1, 5), 0)
 
-    # Dividend less than divisor
-    assert s.divide(1, 5) == 0, "Small dividend failed"
 
-    print("All tests passed!")
+if __name__ == "__main__":
+    unittest.main()

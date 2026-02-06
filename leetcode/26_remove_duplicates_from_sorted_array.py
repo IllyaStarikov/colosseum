@@ -75,6 +75,7 @@ Edge Cases:
 # 3. For-loop vs while-loop - which is cleaner?
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -101,52 +102,76 @@ class Solution:
         return write_i
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Remove Duplicates from Sorted Array solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: [1,1,2] -> k=2, nums[:k]=[1,2]."""
+        nums = [1, 1, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 2)
+        self.assertEqual(nums[:k], [1, 2])
+
+    def test_example_2(self):
+        """Example 2: [0,0,1,1,1,2,2,3,3,4] -> k=5."""
+        nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 5)
+        self.assertEqual(nums[:k], [0, 1, 2, 3, 4])
+
+    def test_edge_single_element(self):
+        """Single element array."""
+        nums = [1]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[:k], [1])
+
+    def test_edge_no_duplicates(self):
+        """Array with no duplicates."""
+        nums = [1, 2, 3, 4, 5]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 5)
+        self.assertEqual(nums[:k], [1, 2, 3, 4, 5])
+
+    def test_edge_all_same(self):
+        """All elements identical."""
+        nums = [1, 1, 1, 1, 1]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[:k], [1])
+
+    def test_edge_negative_numbers(self):
+        """Negative numbers in array."""
+        nums = [-3, -3, -1, 0, 0, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 4)
+        self.assertEqual(nums[:k], [-3, -1, 0, 2])
+
+    def test_edge_two_same(self):
+        """Two identical elements."""
+        nums = [1, 1]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[:k], [1])
+
+    def test_edge_two_different(self):
+        """Two different elements."""
+        nums = [1, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 2)
+        self.assertEqual(nums[:k], [1, 2])
+
+    def test_edge_constraint_boundaries(self):
+        """Values at constraint boundaries."""
+        nums = [-100, -100, 0, 100, 100]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 3)
+        self.assertEqual(nums[:k], [-100, 0, 100])
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: nums = [1,1,2] -> k = 2, nums[:k] = [1,2]
-    nums = [1, 1, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 2 and nums[:k] == [1, 2], f"Example 1 failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Example 2: nums = [0,0,1,1,1,2,2,3,3,4] -> k = 5, nums[:k] = [0,1,2,3,4]
-    nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-    k = s.removeDuplicates(nums)
-    assert k == 5 and nums[:k] == [0, 1, 2, 3, 4], f"Example 2 failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Single element
-    nums = [1]
-    k = s.removeDuplicates(nums)
-    assert k == 1 and nums[:k] == [1], f"Single element failed: k={k}, nums[:k]={nums[:k]}"
-
-    # No duplicates
-    nums = [1, 2, 3, 4, 5]
-    k = s.removeDuplicates(nums)
-    assert k == 5 and nums[:k] == [1, 2, 3, 4, 5], f"No duplicates failed: k={k}, nums[:k]={nums[:k]}"
-
-    # All same
-    nums = [1, 1, 1, 1, 1]
-    k = s.removeDuplicates(nums)
-    assert k == 1 and nums[:k] == [1], f"All same failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Negative numbers
-    nums = [-3, -3, -1, 0, 0, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 4 and nums[:k] == [-3, -1, 0, 2], f"Negative numbers failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Two elements same
-    nums = [1, 1]
-    k = s.removeDuplicates(nums)
-    assert k == 1 and nums[:k] == [1], f"Two same failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Two elements different
-    nums = [1, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 2 and nums[:k] == [1, 2], f"Two different failed: k={k}, nums[:k]={nums[:k]}"
-
-    # Constraint boundaries
-    nums = [-100, -100, 0, 100, 100]
-    k = s.removeDuplicates(nums)
-    assert k == 3 and nums[:k] == [-100, 0, 100], f"Boundaries failed: k={k}, nums[:k]={nums[:k]}"
-
-    print("All tests passed!")
+    unittest.main()

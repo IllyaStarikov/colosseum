@@ -79,6 +79,7 @@ Edge Cases:
 from collections import defaultdict
 from math import gcd
 from typing import List
+import unittest
 
 
 class Solution:
@@ -185,37 +186,53 @@ class Solution:
 #         return lines
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Max Points on a Line solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_collinear(self):
+        """Example 1: Three collinear points."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [2, 2], [3, 3]]), 3)
+
+    def test_example_mixed(self):
+        """Example 2: Not all on same line."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [3, 2], [5, 3], [4, 1], [2, 3], [1, 4]]), 4)
+
+    def test_edge_single_point(self):
+        """Single point returns 1."""
+        self.assertEqual(self.solution.maxPoints([[1, 1]]), 1)
+
+    def test_edge_two_points(self):
+        """Two points always collinear."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [2, 2]]), 2)
+
+    def test_edge_vertical_line(self):
+        """Vertical line (same x)."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [1, 2], [1, 3]]), 3)
+
+    def test_edge_horizontal_line(self):
+        """Horizontal line (same y)."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [2, 1], [3, 1]]), 3)
+
+    def test_edge_empty_list(self):
+        """Empty list returns 0."""
+        self.assertEqual(self.solution.maxPoints([]), 0)
+
+    def test_edge_duplicate_points(self):
+        """Duplicate points count toward line."""
+        self.assertEqual(self.solution.maxPoints([[1, 1], [1, 1], [2, 2]]), 3)
+
+    def test_edge_no_three_collinear(self):
+        """No three points collinear."""
+        self.assertEqual(self.solution.maxPoints([[0, 0], [1, 1], [0, 1]]), 2)
+
+    def test_edge_negative_coordinates(self):
+        """Negative coordinates."""
+        self.assertEqual(self.solution.maxPoints([[-1, -1], [0, 0], [1, 1]]), 3)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: Three collinear points
-    assert s.maxPoints([[1, 1], [2, 2], [3, 3]]) == 3, "Collinear points failed"
-
-    # Example 2: Not all on same line
-    assert s.maxPoints([[1, 1], [3, 2], [5, 3], [4, 1], [2, 3], [1, 4]]) == 4, "Mixed points failed"
-
-    # Edge case: Single point
-    assert s.maxPoints([[1, 1]]) == 1, "Single point failed"
-
-    # Edge case: Two points
-    assert s.maxPoints([[1, 1], [2, 2]]) == 2, "Two points failed"
-
-    # Edge case: Vertical line
-    assert s.maxPoints([[1, 1], [1, 2], [1, 3]]) == 3, "Vertical line failed"
-
-    # Edge case: Horizontal line
-    assert s.maxPoints([[1, 1], [2, 1], [3, 1]]) == 3, "Horizontal line failed"
-
-    # Edge case: Empty list
-    assert s.maxPoints([]) == 0, "Empty list failed"
-
-    # Edge case: Duplicate points
-    assert s.maxPoints([[1, 1], [1, 1], [2, 2]]) == 3, "Duplicate points failed"
-
-    # Edge case: No three collinear
-    assert s.maxPoints([[0, 0], [1, 1], [0, 1]]) == 2, "No three collinear failed"
-
-    # Negative coordinates
-    assert s.maxPoints([[-1, -1], [0, 0], [1, 1]]) == 3, "Negative coordinates failed"
-
-    print("All tests passed!")
+    unittest.main()

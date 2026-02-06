@@ -86,6 +86,7 @@ Edge Cases:
 #        but it avoids unnecessary work and makes intent clear)
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -116,61 +117,76 @@ class Solution:
         return write_i
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Remove Duplicates from Sorted Array II solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: [1,1,1,2,2,3] -> k=5."""
+        nums = [1, 1, 1, 2, 2, 3]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 5)
+        self.assertEqual(nums[:k], [1, 1, 2, 2, 3])
+
+    def test_example_2(self):
+        """Example 2: [0,0,1,1,1,1,2,3,3] -> k=7."""
+        nums = [0, 0, 1, 1, 1, 1, 2, 3, 3]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 7)
+        self.assertEqual(nums[:k], [0, 0, 1, 1, 2, 3, 3])
+
+    def test_edge_two_same(self):
+        """Two identical elements allowed."""
+        nums = [1, 1]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 2)
+        self.assertEqual(nums[:k], [1, 1])
+
+    def test_edge_two_different(self):
+        """Two different elements."""
+        nums = [1, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 2)
+        self.assertEqual(nums[:k], [1, 2])
+
+    def test_edge_single_element(self):
+        """Single element array."""
+        nums = [1]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[:k], [1])
+
+    def test_edge_all_same(self):
+        """All identical, reduced to 2."""
+        nums = [5, 5, 5, 5, 5]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 2)
+        self.assertEqual(nums[:k], [5, 5])
+
+    def test_edge_no_duplicates(self):
+        """No duplicates at all."""
+        nums = [1, 2, 3, 4, 5]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 5)
+        self.assertEqual(nums[:k], [1, 2, 3, 4, 5])
+
+    def test_edge_negatives(self):
+        """Negative numbers in array."""
+        nums = [-3, -3, -3, -1, 0, 0, 0, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 6)
+        self.assertEqual(nums[:k], [-3, -3, -1, 0, 0, 2])
+
+    def test_edge_long_runs(self):
+        """Long runs of same value."""
+        nums = [1, 1, 1, 1, 2, 2, 2, 2]
+        k = self.solution.removeDuplicates(nums)
+        self.assertEqual(k, 4)
+        self.assertEqual(nums[:k], [1, 1, 2, 2])
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: basic duplicates
-    nums = [1, 1, 1, 2, 2, 3]
-    k = s.removeDuplicates(nums)
-    assert k == 5, f"Expected 5, got {k}"
-    assert nums[:k] == [1, 1, 2, 2, 3], f"Expected [1,1,2,2,3], got {nums[:k]}"
-
-    # Example 2: more duplicates
-    nums = [0, 0, 1, 1, 1, 1, 2, 3, 3]
-    k = s.removeDuplicates(nums)
-    assert k == 7, f"Expected 7, got {k}"
-    assert nums[:k] == [0, 0, 1, 1, 2, 3, 3], f"Expected [0,0,1,1,2,3,3], got {nums[:k]}"
-
-    # Edge: exactly two elements (same)
-    nums = [1, 1]
-    k = s.removeDuplicates(nums)
-    assert k == 2, f"Expected 2, got {k}"
-    assert nums[:k] == [1, 1], f"Expected [1,1], got {nums[:k]}"
-
-    # Edge: exactly two elements (different)
-    nums = [1, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 2, f"Expected 2, got {k}"
-    assert nums[:k] == [1, 2], f"Expected [1,2], got {nums[:k]}"
-
-    # Edge: single element
-    nums = [1]
-    k = s.removeDuplicates(nums)
-    assert k == 1, f"Expected 1, got {k}"
-    assert nums[:k] == [1], f"Expected [1], got {nums[:k]}"
-
-    # Edge: all same
-    nums = [5, 5, 5, 5, 5]
-    k = s.removeDuplicates(nums)
-    assert k == 2, f"Expected 2, got {k}"
-    assert nums[:k] == [5, 5], f"Expected [5,5], got {nums[:k]}"
-
-    # Edge: no duplicates at all
-    nums = [1, 2, 3, 4, 5]
-    k = s.removeDuplicates(nums)
-    assert k == 5, f"Expected 5, got {k}"
-    assert nums[:k] == [1, 2, 3, 4, 5], f"Expected [1,2,3,4,5], got {nums[:k]}"
-
-    # Edge: negatives
-    nums = [-3, -3, -3, -1, 0, 0, 0, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 6, f"Expected 6, got {k}"
-    assert nums[:k] == [-3, -3, -1, 0, 0, 2], f"Expected [-3,-3,-1,0,0,2], got {nums[:k]}"
-
-    # Edge: long run of one value then another
-    nums = [1, 1, 1, 1, 2, 2, 2, 2]
-    k = s.removeDuplicates(nums)
-    assert k == 4, f"Expected 4, got {k}"
-    assert nums[:k] == [1, 1, 2, 2], f"Expected [1,1,2,2], got {nums[:k]}"
-
-    print("All tests passed!")
+    unittest.main()

@@ -80,6 +80,7 @@ Edge Cases:
 # 3. What if the tree was an n-ary tree instead of binary?
 
 from typing import Optional
+import unittest
 
 
 class TreeNode:
@@ -180,70 +181,84 @@ class Solution:
         return diameter_binary_tree(root)
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Diameter of Binary Tree solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: [1,2,3,4,5] -> diameter 3."""
+        #       1
+        #      / \
+        #     2   3
+        #    / \
+        #   4   5
+        # Longest path: 4->2->1->3 or 5->2->1->3 = 3 edges
+        root = TreeNode(1,
+                        TreeNode(2,
+                                 TreeNode(4),
+                                 TreeNode(5)),
+                        TreeNode(3))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 3)
+
+    def test_example_2(self):
+        """Example 2: [1,2] -> diameter 1."""
+        root = TreeNode(1, TreeNode(2))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 1)
+
+    def test_edge_single_node(self):
+        """Single node has diameter 0."""
+        root = TreeNode(1)
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 0)
+
+    def test_edge_empty_tree(self):
+        """Empty tree has diameter 0."""
+        self.assertEqual(self.solution.diameterOfBinaryTree(None), 0)
+
+    def test_edge_diameter_not_through_root(self):
+        """Diameter doesn't pass through root."""
+        #       1
+        #      /
+        #     2
+        #    / \
+        #   3   4
+        #  /     \
+        # 5       6
+        # Longest: 5->3->2->4->6 = 4 edges
+        root = TreeNode(1,
+                        TreeNode(2,
+                                 TreeNode(3,
+                                          TreeNode(5)),
+                                 TreeNode(4,
+                                          None,
+                                          TreeNode(6))))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 4)
+
+    def test_edge_left_skewed(self):
+        """Left-skewed tree: 1->2->3->4 = 3 edges."""
+        root = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4))))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 3)
+
+    def test_edge_right_skewed(self):
+        """Right-skewed tree: 1->2->3->4 = 3 edges."""
+        root = TreeNode(1, None, TreeNode(2, None, TreeNode(3, None, TreeNode(4))))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 3)
+
+    def test_edge_balanced(self):
+        """Balanced tree: diameter 4."""
+        #       1
+        #      / \
+        #     2   3
+        #    / \ / \
+        #   4  5 6  7
+        # Diameter: 4->2->1->3->7 = 4 edges
+        root = TreeNode(1,
+                        TreeNode(2, TreeNode(4), TreeNode(5)),
+                        TreeNode(3, TreeNode(6), TreeNode(7)))
+        self.assertEqual(self.solution.diameterOfBinaryTree(root), 4)
+
+
 if __name__ == "__main__":
-    # Example 1: [1,2,3,4,5] -> 3
-    #       1
-    #      / \
-    #     2   3
-    #    / \
-    #   4   5
-    # Longest path: 4->2->1->3 or 5->2->1->3 = 3 edges
-    root1 = TreeNode(1,
-                     TreeNode(2,
-                              TreeNode(4),
-                              TreeNode(5)),
-                     TreeNode(3))
-    assert Solution().diameterOfBinaryTree(root1) == 3, "Example 1 failed"
-
-    # Example 2: [1,2] -> 1
-    root2 = TreeNode(1, TreeNode(2))
-    assert Solution().diameterOfBinaryTree(root2) == 1, "Example 2 failed"
-
-    # Edge case: single node -> 0
-    root3 = TreeNode(1)
-    assert Solution().diameterOfBinaryTree(root3) == 0, "Single node failed"
-
-    # Edge case: empty tree -> 0
-    assert Solution().diameterOfBinaryTree(None) == 0, "Empty tree failed"
-
-    # Diameter doesn't pass through root
-    #       1
-    #      /
-    #     2
-    #    / \
-    #   3   4
-    #  /     \
-    # 5       6
-    # Longest: 5->3->2->4->6 = 4 edges
-    root4 = TreeNode(1,
-                     TreeNode(2,
-                              TreeNode(3,
-                                       TreeNode(5)),
-                              TreeNode(4,
-                                       None,
-                                       TreeNode(6))))
-    assert Solution().diameterOfBinaryTree(root4) == 4, "Diameter not through root failed"
-
-    # Straight line (left skewed)
-    # 1->2->3->4 = 3 edges
-    root5 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4))))
-    assert Solution().diameterOfBinaryTree(root5) == 3, "Left skewed failed"
-
-    # Straight line (right skewed)
-    # 1->2->3->4 = 3 edges
-    root6 = TreeNode(1, None, TreeNode(2, None, TreeNode(3, None, TreeNode(4))))
-    assert Solution().diameterOfBinaryTree(root6) == 3, "Right skewed failed"
-
-    # Balanced tree
-    #       1
-    #      / \
-    #     2   3
-    #    / \ / \
-    #   4  5 6  7
-    # Diameter: 4->2->1->3->7 = 4 edges
-    root7 = TreeNode(1,
-                     TreeNode(2, TreeNode(4), TreeNode(5)),
-                     TreeNode(3, TreeNode(6), TreeNode(7)))
-    assert Solution().diameterOfBinaryTree(root7) == 4, "Balanced tree failed"
-
-    print("All tests passed!")
+    unittest.main()

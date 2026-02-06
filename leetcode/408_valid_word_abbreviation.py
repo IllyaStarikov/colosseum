@@ -100,6 +100,7 @@ Edge Cases:
 # 3. How would you handle case-insensitive matching?
 
 import re
+import unittest
 
 
 class Solution:
@@ -192,47 +193,101 @@ class Solution:
         return re.fullmatch(pattern, word) is not None
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Valid Word Abbreviation solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_valid_multiple_numbers(self):
+        """Example 1: Valid abbreviation with multiple numbers."""
+        self.assertTrue(self.solution.validWordAbbreviation('internationalization', 'i12iz4n'))
+
+    def test_example_invalid(self):
+        """Example 2: Invalid abbreviation."""
+        self.assertFalse(self.solution.validWordAbbreviation('apple', 'a2e'))
+
+    def test_edge_leading_zero(self):
+        """Leading zero is invalid."""
+        self.assertFalse(self.solution.validWordAbbreviation('apple', 'a03e'))
+
+    def test_edge_leading_zero_middle(self):
+        """Leading zero in middle is invalid."""
+        self.assertFalse(self.solution.validWordAbbreviation('word', 'w01d'))
+
+    def test_edge_exact_match(self):
+        """Exact match without numbers."""
+        self.assertTrue(self.solution.validWordAbbreviation('apple', 'apple'))
+
+    def test_edge_wrong_letter(self):
+        """Wrong letter invalidates."""
+        self.assertFalse(self.solution.validWordAbbreviation('apple', 'appla'))
+
+    def test_edge_full_number(self):
+        """Entire word as number."""
+        self.assertTrue(self.solution.validWordAbbreviation('word', '4'))
+
+    def test_edge_s10n(self):
+        """Classic abbreviation pattern."""
+        self.assertTrue(self.solution.validWordAbbreviation('substitution', 's10n'))
+
+    def test_edge_number_too_large(self):
+        """Number larger than word length."""
+        self.assertFalse(self.solution.validWordAbbreviation('word', '5'))
+
+    def test_edge_i18n(self):
+        """i18n pattern."""
+        self.assertTrue(self.solution.validWordAbbreviation('internationalization', 'i18n'))
+
+    def test_edge_100_chars(self):
+        """100 character word."""
+        self.assertTrue(self.solution.validWordAbbreviation('x' * 100, '100'))
+
+    def test_edge_a11y(self):
+        """a11y pattern."""
+        self.assertTrue(self.solution.validWordAbbreviation('accessibility', 'a11y'))
+
+    def test_edge_h1l2(self):
+        """Mixed letters and numbers."""
+        self.assertTrue(self.solution.validWordAbbreviation('hello', 'h1l2'))
+
+    def test_edge_h1l3_extends_past(self):
+        """Number extends past word end."""
+        self.assertFalse(self.solution.validWordAbbreviation('hello', 'h1l3'))
+
+    def test_edge_empty_strings(self):
+        """Both empty strings match."""
+        self.assertTrue(self.solution.validWordAbbreviation('', ''))
+
+    def test_edge_single_char_match(self):
+        """Single character match."""
+        self.assertTrue(self.solution.validWordAbbreviation('a', 'a'))
+
+    def test_edge_single_char_number(self):
+        """Single character as number."""
+        self.assertTrue(self.solution.validWordAbbreviation('a', '1'))
+
+    def test_edge_number_at_end(self):
+        """Number at end of abbreviation."""
+        self.assertTrue(self.solution.validWordAbbreviation('word', 'wo2'))
+
+    def test_edge_number_at_beginning(self):
+        """Number at beginning of abbreviation."""
+        self.assertTrue(self.solution.validWordAbbreviation('word', '3d'))
+
+    def test_edge_abbreviation_longer(self):
+        """Abbreviation longer than possible."""
+        self.assertFalse(self.solution.validWordAbbreviation('hi', 'h3'))
+
+    def test_edge_wrong_char_after_number(self):
+        """Wrong character after number."""
+        self.assertFalse(self.solution.validWordAbbreviation('hello', 'h3p'))
+
+    def test_edge_number_exceeds_length(self):
+        """Number exceeds word length."""
+        self.assertFalse(self.solution.validWordAbbreviation('hello', '10'))
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: Valid abbreviation with multiple numbers
-    assert s.validWordAbbreviation('internationalization', 'i12iz4n') == True, "Example 1 failed"
-
-    # Example 2: Invalid abbreviation
-    assert s.validWordAbbreviation('apple', 'a2e') == False, "Example 2 failed"
-
-    # Leading zero invalid
-    assert s.validWordAbbreviation('apple', 'a03e') == False, "Leading zero failed"
-    assert s.validWordAbbreviation('word', 'w01d') == False, "Leading zero middle failed"
-
-    # Exact match no numbers
-    assert s.validWordAbbreviation('apple', 'apple') == True, "Exact match failed"
-    assert s.validWordAbbreviation('apple', 'appla') == False, "Wrong letter failed"
-
-    # Single number abbreviations
-    assert s.validWordAbbreviation('word', '4') == True, "Full number failed"
-    assert s.validWordAbbreviation('substitution', 's10n') == True, "s10n failed"
-    assert s.validWordAbbreviation('word', '5') == False, "Number too large failed"
-
-    # Multiple consecutive digits
-    assert s.validWordAbbreviation('internationalization', 'i18n') == True, "i18n failed"
-    assert s.validWordAbbreviation('x' * 100, '100') == True, "100 x's failed"
-
-    # Mixed letters and numbers
-    assert s.validWordAbbreviation('accessibility', 'a11y') == True, "a11y failed"
-    assert s.validWordAbbreviation('hello', 'h1l2') == True, "h1l2 failed"
-    assert s.validWordAbbreviation('hello', 'h1l3') == False, "h1l3 extends past failed"
-
-    # Edge cases
-    assert s.validWordAbbreviation('', '') == True, "Empty strings failed"
-    assert s.validWordAbbreviation('a', 'a') == True, "Single char match failed"
-    assert s.validWordAbbreviation('a', '1') == True, "Single char number failed"
-    assert s.validWordAbbreviation('word', 'wo2') == True, "Number at end failed"
-    assert s.validWordAbbreviation('word', '3d') == True, "Number at beginning failed"
-
-    # Invalid patterns
-    assert s.validWordAbbreviation('hi', 'h3') == False, "Abbreviation longer failed"
-    assert s.validWordAbbreviation('hello', 'h3p') == False, "Wrong char after number failed"
-    assert s.validWordAbbreviation('hello', '10') == False, "Number too large failed"
-
-    print("All tests passed!")
+    unittest.main()

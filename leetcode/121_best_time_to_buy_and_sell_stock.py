@@ -85,6 +85,7 @@ Edge Cases:
 #        prices to daily deltas; max profit = max subarray sum of deltas)
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -125,43 +126,61 @@ class Solution:
     #     )
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Best Time to Buy and Sell Stock solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: buy day 2 (price 1), sell day 5 (price 6)."""
+        self.assertEqual(self.solution.maxProfit([7, 1, 5, 3, 6, 4]), 5)
+
+    def test_example_2(self):
+        """Example 2: prices only decrease, no profit possible."""
+        self.assertEqual(self.solution.maxProfit([7, 6, 4, 3, 1]), 0)
+
+    def test_edge_single_element(self):
+        """Single element, can't trade."""
+        self.assertEqual(self.solution.maxProfit([5]), 0)
+
+    def test_edge_two_elements_profit(self):
+        """Two elements, profit possible."""
+        self.assertEqual(self.solution.maxProfit([1, 2]), 1)
+
+    def test_edge_two_elements_no_profit(self):
+        """Two elements, no profit."""
+        self.assertEqual(self.solution.maxProfit([2, 1]), 0)
+
+    def test_edge_two_elements_same(self):
+        """Two elements, same price."""
+        self.assertEqual(self.solution.maxProfit([3, 3]), 0)
+
+    def test_edge_all_same(self):
+        """All same prices."""
+        self.assertEqual(self.solution.maxProfit([5, 5, 5, 5]), 0)
+
+    def test_edge_best_buy_first(self):
+        """Best buy is first day."""
+        self.assertEqual(self.solution.maxProfit([1, 4, 2, 7]), 6)
+
+    def test_edge_best_buy_late(self):
+        """Best buy is late in array."""
+        self.assertEqual(self.solution.maxProfit([5, 3, 1, 8]), 7)
+
+    def test_edge_profit_at_end(self):
+        """Profit realized at the very end."""
+        self.assertEqual(self.solution.maxProfit([3, 2, 1, 4]), 3)
+
+    def test_edge_multiple_peaks(self):
+        """Multiple peaks, pick best single transaction."""
+        self.assertEqual(self.solution.maxProfit([3, 1, 4, 1, 5, 9, 2, 6]), 8)
+
+    def test_edge_large_values(self):
+        """Large values at constraint boundary."""
+        self.assertEqual(self.solution.maxProfit([10000, 1, 10000]), 9999)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: buy day 2 (price 1), sell day 5 (price 6)
-    assert s.maxProfit([7, 1, 5, 3, 6, 4]) == 5
-
-    # Example 2: prices only decrease, no profit possible
-    assert s.maxProfit([7, 6, 4, 3, 1]) == 0
-
-    # Edge: single element, can't trade
-    assert s.maxProfit([5]) == 0
-
-    # Edge: two elements, profit possible
-    assert s.maxProfit([1, 2]) == 1
-
-    # Edge: two elements, no profit
-    assert s.maxProfit([2, 1]) == 0
-
-    # Edge: two elements, same price
-    assert s.maxProfit([3, 3]) == 0
-
-    # Edge: all same prices
-    assert s.maxProfit([5, 5, 5, 5]) == 0
-
-    # Edge: best buy is first day
-    assert s.maxProfit([1, 4, 2, 7]) == 6
-
-    # Edge: best buy is last possible day
-    assert s.maxProfit([5, 3, 1, 8]) == 7
-
-    # Edge: profit at the very end
-    assert s.maxProfit([3, 2, 1, 4]) == 3
-
-    # Edge: multiple peaks, must pick the best single transaction
-    assert s.maxProfit([3, 1, 4, 1, 5, 9, 2, 6]) == 8
-
-    # Edge: large values at constraint boundary
-    assert s.maxProfit([10000, 1, 10000]) == 9999
-
-    print("All tests passed!")
+    unittest.main()

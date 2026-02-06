@@ -78,6 +78,7 @@ Edge Cases:
 
 # import collections
 from typing import List
+import unittest
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
@@ -134,34 +135,49 @@ class Solution:
     #     return collections.Counter(nums).most_common(1)[0][0]
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Majority Element solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_basic_majority(self):
+        """Example 1: element 3 appears 2/3 times."""
+        self.assertEqual(self.solution.majorityElement([3, 2, 3]), 3)
+
+    def test_example_clear_majority(self):
+        """Example 2: element 2 appears 4/7 times."""
+        self.assertEqual(self.solution.majorityElement([2, 2, 1, 1, 1, 2, 2]), 2)
+
+    def test_edge_single_element(self):
+        """Single element is trivially the majority."""
+        self.assertEqual(self.solution.majorityElement([1]), 1)
+
+    def test_edge_all_identical(self):
+        """All same elements, 100% majority."""
+        self.assertEqual(self.solution.majorityElement([5, 5, 5, 5]), 5)
+
+    def test_edge_two_same_elements(self):
+        """Two identical elements."""
+        self.assertEqual(self.solution.majorityElement([3, 3]), 3)
+
+    def test_edge_two_elements_one_majority(self):
+        """Two distinct values, one is majority."""
+        self.assertEqual(self.solution.majorityElement([1, 2, 1]), 1)
+
+    def test_edge_minimum_majority(self):
+        """Majority at minimum threshold (n//2 + 1 occurrences)."""
+        self.assertEqual(self.solution.majorityElement([1, 2, 3, 1, 1]), 1)
+
+    def test_edge_majority_in_first_group(self):
+        """Regression: majority in first group."""
+        self.assertEqual(self.solution.majorityElement([1, 1, 1, 2, 2]), 1)
+
+    def test_edge_negative_numbers(self):
+        """Negative values work correctly."""
+        self.assertEqual(self.solution.majorityElement([-1, -1, 2]), -1)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: basic majority
-    assert s.majorityElement([3, 2, 3]) == 3
-
-    # Example 2: clear majority
-    assert s.majorityElement([2, 2, 1, 1, 1, 2, 2]) == 2
-
-    # Single element
-    assert s.majorityElement([1]) == 1
-
-    # All same elements
-    assert s.majorityElement([5, 5, 5, 5]) == 5
-
-    # Two same elements
-    assert s.majorityElement([3, 3]) == 3
-
-    # Two elements, one majority
-    assert s.majorityElement([1, 2, 1]) == 1
-
-    # Majority at minimum threshold (appears exactly n//2 + 1 times)
-    assert s.majorityElement([1, 2, 3, 1, 1]) == 1
-
-    # Majority in first group (previously failed: [1,1,1,2,2] returned 2)
-    assert s.majorityElement([1, 1, 1, 2, 2]) == 1
-
-    # Negative numbers
-    assert s.majorityElement([-1, -1, 2]) == -1
-
-    print("All tests passed!")
+    unittest.main()

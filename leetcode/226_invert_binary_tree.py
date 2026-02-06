@@ -74,6 +74,7 @@ Edge Cases:
 #     3. What happens if you invert twice? (Get original back — inversion is self-inverse)
 
 from typing import Optional
+import unittest
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -107,66 +108,88 @@ class Solution:
 
         return root
 
+class TestSolution(unittest.TestCase):
+    """Tests for Invert Binary Tree solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def tree_to_list(self, root: Optional[TreeNode]) -> list:
+        """Convert tree to level-order list for comparison."""
+        if not root:
+            return []
+        result, queue = [], [root]
+        while queue:
+            node = queue.pop(0)
+            if node:
+                result.append(node.val)
+                queue.extend([node.left, node.right])
+            else:
+                result.append(None)
+        while result and result[-1] is None:
+            result.pop()
+        return result
+
+    def test_example_1(self):
+        """Example 1: [4,2,7,1,3,6,9] -> [4,7,2,9,6,3,1]."""
+        root = TreeNode(4, TreeNode(2, TreeNode(1), TreeNode(3)), TreeNode(7, TreeNode(6), TreeNode(9)))
+        result = self.solution.invertTree(root)
+        self.assertEqual(self.tree_to_list(result), [4, 7, 2, 9, 6, 3, 1])
+
+    def test_example_2(self):
+        """Example 2: [2,1,3] -> [2,3,1]."""
+        root = TreeNode(2, TreeNode(1), TreeNode(3))
+        result = self.solution.invertTree(root)
+        self.assertEqual(self.tree_to_list(result), [2, 3, 1])
+
+    def test_edge_empty_tree(self):
+        """Empty tree returns None."""
+        self.assertIsNone(self.solution.invertTree(None))
+
+    def test_edge_single_node(self):
+        """Single node unchanged."""
+        result = self.solution.invertTree(TreeNode(1))
+        self.assertEqual(result.val, 1)
+        self.assertIsNone(result.left)
+        self.assertIsNone(result.right)
+
+    def test_edge_left_skewed(self):
+        """Left-skewed [1,2,None,3] -> [1,None,2,None,3]."""
+        root = TreeNode(1, TreeNode(2, TreeNode(3)))
+        result = self.solution.invertTree(root)
+        self.assertEqual(result.val, 1)
+        self.assertIsNone(result.left)
+        self.assertEqual(result.right.val, 2)
+        self.assertIsNone(result.right.left)
+        self.assertEqual(result.right.right.val, 3)
+
+    def test_edge_right_skewed(self):
+        """Right-skewed [1,None,2,None,3] -> [1,2,None,3]."""
+        root = TreeNode(1, None, TreeNode(2, None, TreeNode(3)))
+        result = self.solution.invertTree(root)
+        self.assertEqual(result.val, 1)
+        self.assertEqual(result.left.val, 2)
+        self.assertIsNone(result.right)
+        self.assertEqual(result.left.left.val, 3)
+        self.assertIsNone(result.left.right)
+
+    def test_edge_two_nodes(self):
+        """Two nodes [1,2] -> [1,None,2]."""
+        root = TreeNode(1, TreeNode(2))
+        result = self.solution.invertTree(root)
+        self.assertEqual(result.val, 1)
+        self.assertIsNone(result.left)
+        self.assertEqual(result.right.val, 2)
+
+    def test_edge_symmetric(self):
+        """Symmetric tree [1,2,2] -> [1,2,2] (structure unchanged)."""
+        root = TreeNode(1, TreeNode(2), TreeNode(2))
+        result = self.solution.invertTree(root)
+        self.assertEqual(result.val, 1)
+        self.assertEqual(result.left.val, 2)
+        self.assertEqual(result.right.val, 2)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: [4,2,7,1,3,6,9] -> [4,7,2,9,6,3,1]
-    root = TreeNode(4, TreeNode(2, TreeNode(1), TreeNode(3)), TreeNode(7, TreeNode(6), TreeNode(9)))
-    result = s.invertTree(root)
-    assert result.val == 4
-    assert result.left.val == 7
-    assert result.right.val == 2
-    assert result.left.left.val == 9
-    assert result.left.right.val == 6
-    assert result.right.left.val == 3
-    assert result.right.right.val == 1
-
-    # Example 2: [2,1,3] -> [2,3,1]
-    root = TreeNode(2, TreeNode(1), TreeNode(3))
-    result = s.invertTree(root)
-    assert result.val == 2
-    assert result.left.val == 3
-    assert result.right.val == 1
-
-    # Edge case: empty tree
-    assert s.invertTree(None) is None
-
-    # Edge case: single node
-    result = s.invertTree(TreeNode(1))
-    assert result.val == 1
-    assert result.left is None
-    assert result.right is None
-
-    # Edge case: left-skewed tree [1,2,None,3] -> [1,None,2,None,3]
-    root = TreeNode(1, TreeNode(2, TreeNode(3)))
-    result = s.invertTree(root)
-    assert result.val == 1
-    assert result.left is None
-    assert result.right.val == 2
-    assert result.right.left is None
-    assert result.right.right.val == 3
-
-    # Edge case: right-skewed tree [1,None,2,None,3] -> [1,2,None,3]
-    root = TreeNode(1, None, TreeNode(2, None, TreeNode(3)))
-    result = s.invertTree(root)
-    assert result.val == 1
-    assert result.left.val == 2
-    assert result.right is None
-    assert result.left.left.val == 3
-    assert result.left.right is None
-
-    # Edge case: two nodes [1,2] -> [1,None,2]
-    root = TreeNode(1, TreeNode(2))
-    result = s.invertTree(root)
-    assert result.val == 1
-    assert result.left is None
-    assert result.right.val == 2
-
-    # Edge case: symmetric tree [1,2,2] -> [1,2,2] (structure unchanged)
-    root = TreeNode(1, TreeNode(2), TreeNode(2))
-    result = s.invertTree(root)
-    assert result.val == 1
-    assert result.left.val == 2
-    assert result.right.val == 2
-
-    print("All tests passed!")
+    unittest.main()

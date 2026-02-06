@@ -84,6 +84,7 @@ Edge Cases:
 # 3. What's the advantage of the swap-with-end approach?
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -125,57 +126,72 @@ class Solution:
     #     return k
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Remove Element solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: [3,2,2,3], val=3 -> k=2."""
+        nums = [3, 2, 2, 3]
+        k = self.solution.removeElement(nums, 3)
+        self.assertEqual(k, 2)
+        self.assertEqual(sorted(nums[:k]), [2, 2])
+
+    def test_example_2(self):
+        """Example 2: [0,1,2,2,3,0,4,2], val=2 -> k=5."""
+        nums = [0, 1, 2, 2, 3, 0, 4, 2]
+        k = self.solution.removeElement(nums, 2)
+        self.assertEqual(k, 5)
+        self.assertEqual(sorted(nums[:k]), [0, 0, 1, 3, 4])
+
+    def test_edge_empty_array(self):
+        """Empty array returns 0."""
+        nums = []
+        k = self.solution.removeElement(nums, 1)
+        self.assertEqual(k, 0)
+
+    def test_edge_no_elements_to_remove(self):
+        """Value not in array."""
+        nums = [1, 2, 3]
+        k = self.solution.removeElement(nums, 4)
+        self.assertEqual(k, 3)
+        self.assertEqual(sorted(nums[:k]), [1, 2, 3])
+
+    def test_edge_all_elements_removed(self):
+        """All elements match val."""
+        nums = [3, 3, 3]
+        k = self.solution.removeElement(nums, 3)
+        self.assertEqual(k, 0)
+
+    def test_edge_single_element_matches(self):
+        """Single element that matches."""
+        nums = [3]
+        k = self.solution.removeElement(nums, 3)
+        self.assertEqual(k, 0)
+
+    def test_edge_single_element_no_match(self):
+        """Single element that doesn't match."""
+        nums = [3]
+        k = self.solution.removeElement(nums, 1)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[0], 3)
+
+    def test_edge_two_same_both_removed(self):
+        """Two identical elements, both removed."""
+        nums = [3, 3]
+        k = self.solution.removeElement(nums, 3)
+        self.assertEqual(k, 0)
+
+    def test_edge_two_different_one_removed(self):
+        """Two different elements, one removed."""
+        nums = [1, 2]
+        k = self.solution.removeElement(nums, 1)
+        self.assertEqual(k, 1)
+        self.assertEqual(nums[0], 2)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: nums = [3,2,2,3], val = 3 → k = 2, nums = [2,2]
-    nums = [3, 2, 2, 3]
-    k = s.removeElement(nums, 3)
-    assert k == 2, f"Expected 2, got {k}"
-    assert sorted(nums[:k]) == [2, 2], f"Expected [2, 2], got {nums[:k]}"
-
-    # Example 2: nums = [0,1,2,2,3,0,4,2], val = 2 → k = 5, nums = [0,1,3,0,4]
-    nums = [0, 1, 2, 2, 3, 0, 4, 2]
-    k = s.removeElement(nums, 2)
-    assert k == 5, f"Expected 5, got {k}"
-    assert sorted(nums[:k]) == [0, 0, 1, 3, 4], f"Expected [0, 0, 1, 3, 4], got {nums[:k]}"
-
-    # Edge case: empty array
-    nums = []
-    k = s.removeElement(nums, 1)
-    assert k == 0, f"Expected 0, got {k}"
-
-    # Edge case: no elements to remove
-    nums = [1, 2, 3]
-    k = s.removeElement(nums, 4)
-    assert k == 3, f"Expected 3, got {k}"
-    assert sorted(nums[:k]) == [1, 2, 3], f"Expected [1, 2, 3], got {nums[:k]}"
-
-    # Edge case: all elements should be removed
-    nums = [3, 3, 3]
-    k = s.removeElement(nums, 3)
-    assert k == 0, f"Expected 0, got {k}"
-
-    # Edge case: single element (matches)
-    nums = [3]
-    k = s.removeElement(nums, 3)
-    assert k == 0, f"Expected 0, got {k}"
-
-    # Edge case: single element (doesn't match)
-    nums = [3]
-    k = s.removeElement(nums, 1)
-    assert k == 1, f"Expected 1, got {k}"
-    assert nums[0] == 3, f"Expected [3], got {nums[:k]}"
-
-    # Edge case: two elements same, both removed
-    nums = [3, 3]
-    k = s.removeElement(nums, 3)
-    assert k == 0, f"Expected 0, got {k}"
-
-    # Edge case: two elements different, one removed
-    nums = [1, 2]
-    k = s.removeElement(nums, 1)
-    assert k == 1, f"Expected 1, got {k}"
-    assert nums[0] == 2, f"Expected [2], got {nums[:k]}"
-
-    print("All tests passed!")
+    unittest.main()

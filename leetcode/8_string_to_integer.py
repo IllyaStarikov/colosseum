@@ -108,6 +108,7 @@ Edge Cases:
 # 3. How would you implement this without regex?
 
 import re
+import unittest
 
 INT_MIN = -(2**31)
 INT_MAX = 2**31 - 1
@@ -193,49 +194,69 @@ class Solution:
             return number
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for String to Integer (atoi) solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_basic_positive(self):
+        """Example 1: Basic positive number."""
+        self.assertEqual(self.solution.myAtoi("42"), 42)
+
+    def test_example_whitespace_and_sign(self):
+        """Example 2: Leading whitespace and negative sign."""
+        self.assertEqual(self.solution.myAtoi("   -42"), -42)
+
+    def test_example_number_with_words(self):
+        """Example 3: Number followed by non-digit characters."""
+        self.assertEqual(self.solution.myAtoi("4193 with words"), 4193)
+
+    def test_example_words_before_number(self):
+        """Example 4: Non-digit character at start."""
+        self.assertEqual(self.solution.myAtoi("words and 987"), 0)
+
+    def test_edge_negative_overflow(self):
+        """Negative number exceeding INT_MIN."""
+        self.assertEqual(self.solution.myAtoi("-91283472332"), -2147483648)
+
+    def test_edge_positive_overflow(self):
+        """Positive number exceeding INT_MAX."""
+        self.assertEqual(self.solution.myAtoi("2147483648"), 2147483647)
+
+    def test_edge_empty_string(self):
+        """Empty string returns 0."""
+        self.assertEqual(self.solution.myAtoi(""), 0)
+
+    def test_edge_plus_sign(self):
+        """Explicit plus sign."""
+        self.assertEqual(self.solution.myAtoi("+1"), 1)
+
+    def test_edge_leading_zero(self):
+        """Leading zeros are ignored."""
+        self.assertEqual(self.solution.myAtoi("0012"), 12)
+
+    def test_edge_only_whitespace(self):
+        """Only whitespace returns 0."""
+        self.assertEqual(self.solution.myAtoi("   "), 0)
+
+    def test_edge_sign_without_number(self):
+        """Sign without digits returns 0."""
+        self.assertEqual(self.solution.myAtoi("-"), 0)
+
+    def test_edge_zero(self):
+        """Zero string returns 0."""
+        self.assertEqual(self.solution.myAtoi("0"), 0)
+
+    def test_edge_decimal_stops_parsing(self):
+        """Decimal point stops parsing."""
+        self.assertEqual(self.solution.myAtoi("3.14159"), 3)
+
+    def test_edge_number_then_sign(self):
+        """Sign after digit stops parsing."""
+        self.assertEqual(self.solution.myAtoi("0-1"), 0)
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: Basic positive
-    assert s.myAtoi("42") == 42, "Basic positive failed"
-
-    # Example 2: Leading whitespace and sign
-    assert s.myAtoi("   -42") == -42, "Whitespace and sign failed"
-
-    # Example 3: Number with words after
-    assert s.myAtoi("4193 with words") == 4193, "Number with words failed"
-
-    # Example 4: Words before number
-    assert s.myAtoi("words and 987") == 0, "Words before number failed"
-
-    # Negative overflow
-    assert s.myAtoi("-91283472332") == -2147483648, "Negative overflow failed"
-
-    # Positive overflow
-    assert s.myAtoi("2147483648") == 2147483647, "Positive overflow failed"
-
-    # Empty string
-    assert s.myAtoi("") == 0, "Empty string failed"
-
-    # Plus sign
-    assert s.myAtoi("+1") == 1, "Plus sign failed"
-
-    # Leading zero
-    assert s.myAtoi("0012") == 12, "Leading zero failed"
-
-    # Only whitespace
-    assert s.myAtoi("   ") == 0, "Only whitespace failed"
-
-    # Sign without number
-    assert s.myAtoi("-") == 0, "Sign without number failed"
-
-    # Zero
-    assert s.myAtoi("0") == 0, "Zero failed"
-
-    # Decimal point stops parsing
-    assert s.myAtoi("3.14159") == 3, "Decimal point failed"
-
-    # Number then sign then number
-    assert s.myAtoi("0-1") == 0, "Number then sign failed"
-
-    print("All tests passed!")
+    unittest.main()

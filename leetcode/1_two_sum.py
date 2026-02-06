@@ -85,6 +85,7 @@ Edge Cases:
 #     3. What if multiple valid pairs exist? (Return all, dedupe with set)
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -124,47 +125,63 @@ class Solution:
     #     return []
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Two Sum solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_basic(self):
+        """Example 1: basic case with answer at start."""
+        result = self.solution.twoSum([2, 7, 11, 15], 9)
+        self.assertEqual(sorted(result), [0, 1])
+
+    def test_example_answer_not_at_start(self):
+        """Example 2: answer in middle of array."""
+        result = self.solution.twoSum([3, 2, 4], 6)
+        self.assertEqual(sorted(result), [1, 2])
+
+    def test_example_same_element_twice(self):
+        """Example 3: same value appears twice."""
+        result = self.solution.twoSum([3, 3], 6)
+        self.assertEqual(sorted(result), [0, 1])
+
+    def test_edge_two_elements(self):
+        """Minimum array size of 2."""
+        result = self.solution.twoSum([1, 4], 5)
+        self.assertEqual(sorted(result), [0, 1])
+
+    def test_edge_negative_numbers(self):
+        """All negative numbers."""
+        result = self.solution.twoSum([-1, -2, -3, -4, -5], -8)
+        self.assertEqual(sorted(result), [2, 4])
+
+    def test_edge_mixed_positive_negative(self):
+        """Mix of positive and negative numbers."""
+        result = self.solution.twoSum([-3, 4, 3, 90], 0)
+        self.assertEqual(sorted(result), [0, 2])
+
+    def test_edge_zero_in_array(self):
+        """Zero values in array."""
+        result = self.solution.twoSum([0, 4, 3, 0], 0)
+        self.assertEqual(sorted(result), [0, 3])
+
+    def test_edge_negative_target(self):
+        """Target is negative."""
+        result = self.solution.twoSum([5, -7, 2, 1], -5)
+        self.assertEqual(sorted(result), [1, 2])
+
+    def test_edge_answer_at_end(self):
+        """Answer at the end of array."""
+        result = self.solution.twoSum([1, 2, 3, 4, 5], 9)
+        self.assertEqual(sorted(result), [3, 4])
+
+    def test_edge_larger_array(self):
+        """Larger array with multiple valid pairs."""
+        result = self.solution.twoSum([10, 20, 30, 40, 50, 60], 70)
+        self.assertIn(sorted(result), [[0, 5], [1, 4], [2, 3]])
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: basic case
-    result = s.twoSum([2, 7, 11, 15], 9)
-    assert sorted(result) == [0, 1], f"Expected [0,1], got {result}"
-
-    # Example 2: answer not at start
-    result = s.twoSum([3, 2, 4], 6)
-    assert sorted(result) == [1, 2], f"Expected [1,2], got {result}"
-
-    # Example 3: same element twice
-    result = s.twoSum([3, 3], 6)
-    assert sorted(result) == [0, 1], f"Expected [0,1], got {result}"
-
-    # Edge: two elements
-    result = s.twoSum([1, 4], 5)
-    assert sorted(result) == [0, 1], f"Expected [0,1], got {result}"
-
-    # Edge: negative numbers
-    result = s.twoSum([-1, -2, -3, -4, -5], -8)
-    assert sorted(result) == [2, 4], f"Expected [2,4], got {result}"
-
-    # Edge: mix of positive and negative
-    result = s.twoSum([-3, 4, 3, 90], 0)
-    assert sorted(result) == [0, 2], f"Expected [0,2], got {result}"
-
-    # Edge: zero in array
-    result = s.twoSum([0, 4, 3, 0], 0)
-    assert sorted(result) == [0, 3], f"Expected [0,3], got {result}"
-
-    # Edge: target is negative
-    result = s.twoSum([5, -7, 2, 1], -5)
-    assert sorted(result) == [1, 2], f"Expected [1,2], got {result}"
-
-    # Edge: answer at the end
-    result = s.twoSum([1, 2, 3, 4, 5], 9)
-    assert sorted(result) == [3, 4], f"Expected [3,4], got {result}"
-
-    # Edge: larger array, answer in middle
-    result = s.twoSum([10, 20, 30, 40, 50, 60], 70)
-    assert sorted(result) == [0, 5] or sorted(result) == [1, 4] or sorted(result) == [2, 3], f"Got {result}"
-
-    print("All tests passed!")
+    unittest.main()

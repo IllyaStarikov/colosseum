@@ -1,6 +1,9 @@
 - Do not make changes to my files unless I specifically ask for it.
 - Tests should be inlined into the solution file, not in separate test files.
-- Use simple asserts in main, not unittest suites.
+- Use unittest.TestCase for tests, not simple asserts in main.
+- Tests should be inline in the solution file with a TestSolution class.
+- Each test method should have a descriptive name (test_example_X, test_edge_X).
+- Use setUp() to create the Solution instance.
 - Do not remove commented-out code in solution files. These are prior solutions kept to show progression.
 
 ## LeetCode Solution Documentation Standards

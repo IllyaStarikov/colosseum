@@ -93,6 +93,7 @@ Edge Cases:
 # 3. What if nums1 didn't have extra space at the end?
 
 from typing import List
+import unittest
 
 
 class Solution:
@@ -125,47 +126,61 @@ class Solution:
             write_idx -= 1
 
 
+class TestSolution(unittest.TestCase):
+    """Tests for Merge Sorted Array solution."""
+
+    def setUp(self):
+        """Create Solution instance for each test."""
+        self.solution = Solution()
+
+    def test_example_1(self):
+        """Example 1: Basic merge."""
+        nums1 = [1, 2, 3, 0, 0, 0]
+        self.solution.merge(nums1, 3, [2, 5, 6], 3)
+        self.assertEqual(nums1, [1, 2, 2, 3, 5, 6])
+
+    def test_example_2(self):
+        """Example 2: nums2 is empty."""
+        nums1 = [1]
+        self.solution.merge(nums1, 1, [], 0)
+        self.assertEqual(nums1, [1])
+
+    def test_example_3(self):
+        """Example 3: nums1 has no initial elements."""
+        nums1 = [0]
+        self.solution.merge(nums1, 0, [1], 1)
+        self.assertEqual(nums1, [1])
+
+    def test_edge_all_smaller(self):
+        """All nums2 elements smaller than nums1."""
+        nums1 = [4, 5, 6, 0, 0, 0]
+        self.solution.merge(nums1, 3, [1, 2, 3], 3)
+        self.assertEqual(nums1, [1, 2, 3, 4, 5, 6])
+
+    def test_edge_all_larger(self):
+        """All nums2 elements larger than nums1."""
+        nums1 = [1, 2, 3, 0, 0, 0]
+        self.solution.merge(nums1, 3, [4, 5, 6], 3)
+        self.assertEqual(nums1, [1, 2, 3, 4, 5, 6])
+
+    def test_edge_interleaved(self):
+        """Elements interleave."""
+        nums1 = [1, 3, 5, 0, 0, 0]
+        self.solution.merge(nums1, 3, [2, 4, 6], 3)
+        self.assertEqual(nums1, [1, 2, 3, 4, 5, 6])
+
+    def test_edge_duplicates(self):
+        """Duplicate values across arrays."""
+        nums1 = [1, 2, 2, 0, 0]
+        self.solution.merge(nums1, 3, [2, 3], 2)
+        self.assertEqual(nums1, [1, 2, 2, 2, 3])
+
+    def test_edge_negative_numbers(self):
+        """Negative numbers in arrays."""
+        nums1 = [-3, -1, 0, 0, 0]
+        self.solution.merge(nums1, 2, [-2, 1, 2], 3)
+        self.assertEqual(nums1, [-3, -2, -1, 1, 2])
+
+
 if __name__ == "__main__":
-    s = Solution()
-
-    # Example 1: Basic merge
-    nums1 = [1, 2, 3, 0, 0, 0]
-    s.merge(nums1, 3, [2, 5, 6], 3)
-    assert nums1 == [1, 2, 2, 3, 5, 6], f"Example 1 failed: {nums1}"
-
-    # Example 2: nums2 is empty
-    nums1 = [1]
-    s.merge(nums1, 1, [], 0)
-    assert nums1 == [1], f"Example 2 failed: {nums1}"
-
-    # Example 3: nums1 has no initial elements
-    nums1 = [0]
-    s.merge(nums1, 0, [1], 1)
-    assert nums1 == [1], f"Example 3 failed: {nums1}"
-
-    # Edge case: All nums2 elements smaller
-    nums1 = [4, 5, 6, 0, 0, 0]
-    s.merge(nums1, 3, [1, 2, 3], 3)
-    assert nums1 == [1, 2, 3, 4, 5, 6], f"All smaller failed: {nums1}"
-
-    # Edge case: All nums2 elements larger
-    nums1 = [1, 2, 3, 0, 0, 0]
-    s.merge(nums1, 3, [4, 5, 6], 3)
-    assert nums1 == [1, 2, 3, 4, 5, 6], f"All larger failed: {nums1}"
-
-    # Edge case: Interleaved elements
-    nums1 = [1, 3, 5, 0, 0, 0]
-    s.merge(nums1, 3, [2, 4, 6], 3)
-    assert nums1 == [1, 2, 3, 4, 5, 6], f"Interleaved failed: {nums1}"
-
-    # Edge case: Duplicate values
-    nums1 = [1, 2, 2, 0, 0]
-    s.merge(nums1, 3, [2, 3], 2)
-    assert nums1 == [1, 2, 2, 2, 3], f"Duplicates failed: {nums1}"
-
-    # Edge case: Negative numbers
-    nums1 = [-3, -1, 0, 0, 0]
-    s.merge(nums1, 2, [-2, 1, 2], 3)
-    assert nums1 == [-3, -2, -1, 1, 2], f"Negative numbers failed: {nums1}"
-
-    print("All tests passed!")
+    unittest.main()
